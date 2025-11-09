@@ -66,7 +66,7 @@ func take_hit():
 
 	if health <= 0:
 		print("Enemy dying at position: ", global_position)
-		emit_signal("enemy_died", global_position)  # Signal death with position
+		# emit_signal("enemy_died", global_position)  # Signal death with position - COMMENTED OUT
 		queue_free()  # Remove enemy when health reaches 0
 
 func _on_hit_box_area_entered(area):
