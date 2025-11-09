@@ -101,18 +101,13 @@ func handle_movement_input():
 	velocity.x = input_dir * move_speed
 	
 	# Update facing direction
-	if input_dir > 0:
-		facing_right = true
-	elif input_dir < 0:
-		facing_right = false
-	
-	# Update punch hitbox position based on facing direction
-	punch_area.position = Vector2(30 if facing_right else -70, -10)
-	
+	if input_dir != 0:
+		facing_right = input_dir > 0
+
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_force
 		current_state = PlayerState.JUMPING
-	
+
 	if Input.is_action_just_pressed("punch") and can_punch:
 		start_punch()
 
@@ -120,6 +115,11 @@ func start_punch():
 	current_state = PlayerState.PUNCHING
 	can_punch = false
 	punch_timer = punch_cooldown
+	
+	# Position punch hitbox based on facing direction
+	var horizontal_offset := 40.0
+	punch_area.position = Vector2(horizontal_offset if facing_right else -horizontal_offset, -40)
+	
 	punch_area.visible = true  # Show the punch hitbox
 	# Enable collision only while punching
 	punch_area.monitoring = true

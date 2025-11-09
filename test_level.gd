@@ -9,7 +9,7 @@ func _ready():
 	print("Enemy scene loaded: ", enemy_scene != null)
 	
 	# Position the player
-	$Player.position = Vector2(512, 300)  # Start position in the middle and above ground
+	# $Player.position = Vector2(512, 300)  # Start position in the middle and above ground
 	
 	# Set up respawn timer
 	respawn_timer = Timer.new()
