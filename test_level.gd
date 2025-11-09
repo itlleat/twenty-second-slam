@@ -11,16 +11,16 @@ func _ready():
 	# Position the player
 	# $Player.position = Vector2(512, 300)  # Start position in the middle and above ground
 	
-	# Set up respawn timer
-	respawn_timer = Timer.new()
-	respawn_timer.one_shot = true
-	respawn_timer.wait_time = 1
-	respawn_timer.timeout.connect(_on_respawn_timer_timeout)
-	add_child(respawn_timer)
+	# Set up respawn timer - COMMENTED OUT
+	# respawn_timer = Timer.new()
+	# respawn_timer.one_shot = true
+	# respawn_timer.wait_time = 1
+	# respawn_timer.timeout.connect(_on_respawn_timer_timeout)
+	# add_child(respawn_timer)
 	
-	print("About to spawn initial enemy")
-	# Spawn initial ene
-	spawn_enemy()
+	# print("About to spawn initial enemy")
+	# Spawn initial enemy - COMMENTED OUT
+	# spawn_enemy()
 	print("TestLevel _ready() finished")
 
 func spawn_enemy():
@@ -35,21 +35,23 @@ func spawn_enemy():
 			# respawned enemy far from the intended spot if the parent has
 			# any transform. Assign to `global_position` to preserve world coords.
 			enemy.global_position = last_enemy_position
-			if enemy.has_signal("enemy_died"):
-				enemy.enemy_died.connect(_on_enemy_died)
-			else:
-				print("Warning: enemy instance has no 'enemy_died' signal")
+			# COMMENTED OUT - Signal connection for respawning
+			# if enemy.has_signal("enemy_died"):
+			# 	enemy.enemy_died.connect(_on_enemy_died)
+			# else:
+			# 	print("Warning: enemy instance has no 'enemy_died' signal")
 			print("Enemy spawned at global position: ", enemy.global_position)
 		else:
 			print("Failed to instantiate enemy")
 	else:
 		print("Failed to load enemy scene")
 
-func _on_enemy_died(enemy_pos):
-	print("Enemy death signal received at position: ", enemy_pos)
-	last_enemy_position = enemy_pos  # Store position for respawn
-	respawn_timer.start()
+# COMMENTED OUT - Enemy respawn functions
+# func _on_enemy_died(enemy_pos):
+# 	print("Enemy death signal received at position: ", enemy_pos)
+# 	last_enemy_position = enemy_pos  # Store position for respawn
+# 	respawn_timer.start()
 
-func _on_respawn_timer_timeout():
-	print("Timer timeout - spawning enemy at position: ", last_enemy_position)
-	spawn_enemy()
+# func _on_respawn_timer_timeout():
+# 	print("Timer timeout - spawning enemy at position: ", last_enemy_position)
+# 	spawn_enemy()
