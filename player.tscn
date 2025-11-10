@@ -35,3 +35,5 @@ color = Color(1, 1, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchHitBox"]
 shape = SubResource("RectangleShape2D_tge7h")
+
+[node name="Camera2D" type="Camera2D" parent="."]
