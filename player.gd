@@ -3,24 +3,48 @@ extends CharacterBody2D
 enum PlayerState {
 	IDLE,
 	WALKING,
-	JUMPING,
+	WALK_UP,
+	WALK_DOWN,
+	DASHING,
 	PUNCHING
 }
 
 var current_state = PlayerState.IDLE
 var move_speed = 600.0
-var jump_force = -475.0
+var dash_force = 1000.0
+var dash_duration = 0.2
 var gravity = 980.0
 var can_punch = true
 var punch_cooldown = 0.06
 var punch_timer = 0.0
+var dash_timer = 0.0
+var can_dash = true
 var facing_right = true
 
 var punch_area: Area2D
 var punch_rect: ColorRect
 var player_body: ColorRect
+var can_move_vertically = false
 
 func _ready():
+	# Create and add camera
+	var camera = Camera2D.new()
+	camera.enabled = true
+	
+	# Add smoothing for smoother camera movement
+	camera.position_smoothing_enabled = true
+	camera.position_smoothing_speed = 5.0
+	
+	# Set zoom level (adjust as needed)
+	camera.zoom = Vector2(1.2, 1.2)  # Slight zoom in
+	
+	# Set camera limits to prevent going outside level bounds
+	camera.limit_left = 0
+	camera.limit_right = 1920
+	camera.limit_top = 0
+	camera.limit_bottom = 1080
+	
+	add_child(camera)
 
 	punch_area = $PunchHitBox
 	punch_rect = $PunchHitBox/PunchRect
@@ -49,41 +73,60 @@ func _physics_process(delta):
 			handle_idle_state(delta)
 		PlayerState.WALKING:
 			handle_walking_state(delta)
-		PlayerState.JUMPING:
-			handle_jumping_state(delta)
+		PlayerState.WALK_UP:
+			handle_walk_up_state(delta)
+		PlayerState.WALK_DOWN:
+			handle_walk_down_state(delta)
+		PlayerState.DASHING:
+			handle_dashing_state(delta)
 		PlayerState.PUNCHING:
 			handle_punching_state(delta)
 	
-	# Apply gravity
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	# No gravity - all movement is contained within free movement area
 	
 	move_and_slide()
+	
+
+	
 	update_state()
 
 func handle_idle_state(_delta):
-	if not is_on_floor():
-		current_state = PlayerState.JUMPING
-		return
-	
-	velocity.x = 0
-	handle_movement_input()
+	# Only allow movement in free movement area
+	if can_move_vertically:
+		velocity = Vector2.ZERO
+		handle_movement_input()
+	else:
+		# Outside free movement area - no movement allowed
+		velocity = Vector2.ZERO
 
 func handle_walking_state(_delta):
-	if not is_on_floor():
-		current_state = PlayerState.JUMPING
-		return
-	
+	# Only allow movement in free movement area
+	if can_move_vertically:
+		handle_movement_input()
+	else:
+		# Outside free movement area - stop moving
+		velocity = Vector2.ZERO
+		current_state = PlayerState.IDLE
+
+func handle_walk_up_state(_delta):
+	# Same as walking state - free movement in all directions
 	handle_movement_input()
 
-func handle_jumping_state(_delta):
+func handle_walk_down_state(_delta):
+	# Same as walking state - free movement in all directions
 	handle_movement_input()
-	
-	if is_on_floor():
-		if abs(velocity.x) > 0:
-			current_state = PlayerState.WALKING
-		else:
-			current_state = PlayerState.IDLE
+
+func handle_dashing_state(delta):
+	dash_timer -= delta
+	if dash_timer <= 0:
+		# End dash
+		current_state = PlayerState.IDLE
+		can_dash = true
+		# Slow down after dash
+		velocity.x *= 0.5
+		if can_move_vertically:
+			velocity.y *= 0.5
+	# Don't handle input during dash - keep dash velocity
 
 func handle_punching_state(delta):
 	velocity.x = 0
@@ -97,19 +140,59 @@ func handle_punching_state(delta):
 		punch_area.monitorable = false
 
 func handle_movement_input():
-	var input_dir = Input.get_axis("move_left", "move_right")
-	velocity.x = input_dir * move_speed
+	# Only allow input when in free movement area
+	if not can_move_vertically:
+		return
+	
+	var input_dir_x = Input.get_axis("move_left", "move_right")
+	var input_dir_y = Input.get_axis("move_up", "move_down")
+	
+	# Create movement vector for free movement
+	var movement_vector = Vector2(input_dir_x, input_dir_y)
+	
+	# Normalize diagonal movement to prevent faster diagonal speed
+	if movement_vector.length() > 1.0:
+		movement_vector = movement_vector.normalized()
+	
+	# Apply movement
+	velocity.x = movement_vector.x * move_speed
+	velocity.y = movement_vector.y * move_speed
 	
 	# Update facing direction
-	if input_dir != 0:
-		facing_right = input_dir > 0
+	if input_dir_x != 0:
+		facing_right = input_dir_x > 0
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = jump_force
-		current_state = PlayerState.JUMPING
+	# Dash only works in free movement area
+	if Input.is_action_just_pressed("jump") and can_dash:
+		start_dash()
 
 	if Input.is_action_just_pressed("punch") and can_punch:
 		start_punch()
+
+func start_dash():
+	# Only allow dashing in free movement area
+	if not can_move_vertically:
+		return
+	
+	current_state = PlayerState.DASHING
+	can_dash = false
+	dash_timer = dash_duration
+	
+	# Get current input for dash direction
+	var input_dir_x = Input.get_axis("move_left", "move_right")
+	var input_dir_y = Input.get_axis("move_up", "move_down")
+	
+	var dash_direction = Vector2.ZERO
+	
+	# Dash in any direction based on input
+	if abs(input_dir_x) > 0 or abs(input_dir_y) > 0:
+		dash_direction = Vector2(input_dir_x, input_dir_y).normalized()
+	else:
+		# No input - dash in facing direction
+		dash_direction = Vector2(1 if facing_right else -1, 0)
+	
+	velocity = dash_direction * dash_force
+	print("Dashing in direction: ", dash_direction)
 
 func start_punch():
 	current_state = PlayerState.PUNCHING
@@ -126,9 +209,13 @@ func start_punch():
 	punch_area.monitorable = true
 
 func update_state():
-	if current_state != PlayerState.PUNCHING:
-		if is_on_floor():
-			if abs(velocity.x) > 0:
+	if current_state != PlayerState.PUNCHING and current_state != PlayerState.DASHING:
+		if can_move_vertically:
+			# In free movement area - use any movement for walking state
+			if abs(velocity.x) > 0 or abs(velocity.y) > 0:
 				current_state = PlayerState.WALKING
 			else:
 				current_state = PlayerState.IDLE
+		else:
+			# Outside free movement area - always idle (no movement allowed)
+			current_state = PlayerState.IDLE

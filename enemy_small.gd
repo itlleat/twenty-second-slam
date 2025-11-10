@@ -17,7 +17,7 @@ var flash_overlay: ColorRect
 # Physics for flying when defeated
 var is_flying = false
 var flying_timer = 0.0
-var flying_duration = 5.0
+var flying_duration = 2.5
 var gravity = 980.0
 var bounce_damping = 0.8
 var friction = 0.95
