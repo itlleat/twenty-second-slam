@@ -3,16 +3,16 @@
 [ext_resource type="Script" path="res://enemy.gd" id="1_xyxpp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e51b3"]
-size = Vector2(201, 201)
+size = Vector2(199, 198)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ceker"]
-size = Vector2(201, 202)
+size = Vector2(201, 201)
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_xyxpp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 1)
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_e51b3")
 
 [node name="EnemyBody" type="ColorRect" parent="."]
@@ -31,5 +31,5 @@ offset_bottom = 101.0
 [node name="HitBox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(0.5, 0)
+position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_ceker")
