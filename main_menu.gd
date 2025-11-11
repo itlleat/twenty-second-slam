@@ -7,6 +7,12 @@ extends Control
 @onready var volume_slider = $UI/SettingsPanel/SettingsContainer/VolumeContainer/VolumeSlider
 @onready var fullscreen_checkbox = $UI/SettingsPanel/SettingsContainer/FullscreenCheckbox
 
+# Menu button references for navigation
+@onready var start_button = $MainContainer/MenuButtons/StartButton
+@onready var leaderboards_button = $MainContainer/MenuButtons/LeaderboardsButton
+@onready var settings_button = $MainContainer/MenuButtons/SettingsButton
+@onready var exit_button = $MainContainer/MenuButtons/ExitButton
+
 func _ready():
 	# Initialize settings with current values
 	_load_settings()
@@ -14,11 +20,25 @@ func _ready():
 	# Ensure settings panel is hidden initially
 	settings_panel.visible = false
 	
-	# Focus the start button initially - wait one frame for UI to be ready
-	call_deferred("_set_initial_focus")
+	# Set up button navigation
+	_setup_button_navigation()
+	
+	# Focus the start button initially
+	start_button.grab_focus()
 
-func _set_initial_focus():
-	$MainContainer/MenuButtons/StartButton.grab_focus()
+func _setup_button_navigation():
+	# Set up focus neighbors for directional navigation
+	start_button.focus_neighbor_down = leaderboards_button.get_path()
+	start_button.focus_neighbor_up = exit_button.get_path()
+	
+	leaderboards_button.focus_neighbor_up = start_button.get_path()
+	leaderboards_button.focus_neighbor_down = settings_button.get_path()
+	
+	settings_button.focus_neighbor_up = leaderboards_button.get_path()
+	settings_button.focus_neighbor_down = exit_button.get_path()
+	
+	exit_button.focus_neighbor_up = settings_button.get_path()
+	exit_button.focus_neighbor_down = start_button.get_path()
 
 func _load_settings():
 	# Load volume setting
@@ -75,7 +95,7 @@ func _on_back_button_pressed():
 	settings_panel.visible = false
 	
 	# Return focus to the settings button
-	$MainContainer/MenuButtons/SettingsButton.grab_focus()
+	settings_button.grab_focus()
 
 func _show_placeholder_message(message: String):
 	# Simple placeholder message system

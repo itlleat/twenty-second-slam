@@ -161,10 +161,10 @@ func start_flying():
 	var force_y = randf_range(-600, -300)  # Upward force
 	velocity = Vector2(force_x, force_y)
 	
-	# Disable hit detection while flying
+	# Disable hit detection while flying (deferred to avoid collision system conflicts)
 	if has_node("HitBox"):
-		$HitBox.monitoring = false
-		$HitBox.monitorable = false
+		$HitBox.set_deferred("monitoring", false)
+		$HitBox.set_deferred("monitorable", false)
 	
 	print("Enemy_small started flying with velocity: ", velocity, " (player facing right: ", player_facing_right, ")")
 
