@@ -144,23 +144,43 @@ func handle_movement_input():
 	if not can_move_vertically:
 		return
 	
-	var input_dir_x = Input.get_axis("move_left", "move_right")
-	var input_dir_y = Input.get_axis("move_up", "move_down")
+	# Use a more direct approach to get input values
+	var input_vector = Vector2.ZERO
 	
-	# Create movement vector for free movement
-	var movement_vector = Vector2(input_dir_x, input_dir_y)
+	# Get keyboard input
+	if Input.is_action_pressed("move_left"):
+		input_vector.x -= 1.0
+	if Input.is_action_pressed("move_right"):
+		input_vector.x += 1.0
+	if Input.is_action_pressed("move_up"):
+		input_vector.y -= 1.0
+	if Input.is_action_pressed("move_down"):
+		input_vector.y += 1.0
 	
-	# Normalize diagonal movement to prevent faster diagonal speed
-	if movement_vector.length() > 1.0:
-		movement_vector = movement_vector.normalized()
+	# Get joystick input (with lower deadzone for better responsiveness)
+	var joy_vector = Vector2(
+		Input.get_joy_axis(0, JOY_AXIS_LEFT_X),
+		Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
+	)
+	
+	# Apply custom deadzone for joystick (much lower than 0.5)
+	var deadzone = 0.15
+	if joy_vector.length() > deadzone:
+		# Use joystick input if it's beyond deadzone
+		input_vector = joy_vector
+	
+	# Normalize to ensure consistent movement speed in all directions
+	if input_vector.length() > 0.0:
+		if input_vector.length() > 1.0:
+			input_vector = input_vector.normalized()
 	
 	# Apply movement
-	velocity.x = movement_vector.x * move_speed
-	velocity.y = movement_vector.y * move_speed
+	velocity.x = input_vector.x * move_speed
+	velocity.y = input_vector.y * move_speed
 	
 	# Update facing direction
-	if input_dir_x != 0:
-		facing_right = input_dir_x > 0
+	if input_vector.x != 0:
+		facing_right = input_vector.x > 0
 
 	# Dash only works in free movement area
 	if Input.is_action_just_pressed("jump") and can_dash:
@@ -178,15 +198,34 @@ func start_dash():
 	can_dash = false
 	dash_timer = dash_duration
 	
-	# Get current input for dash direction
-	var input_dir_x = Input.get_axis("move_left", "move_right")
-	var input_dir_y = Input.get_axis("move_up", "move_down")
+	# Get current input for dash direction using the same method as movement
+	var input_vector = Vector2.ZERO
+	
+	# Get keyboard input
+	if Input.is_action_pressed("move_left"):
+		input_vector.x -= 1.0
+	if Input.is_action_pressed("move_right"):
+		input_vector.x += 1.0
+	if Input.is_action_pressed("move_up"):
+		input_vector.y -= 1.0
+	if Input.is_action_pressed("move_down"):
+		input_vector.y += 1.0
+	
+	# Get joystick input
+	var joy_vector = Vector2(
+		Input.get_joy_axis(0, JOY_AXIS_LEFT_X),
+		Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
+	)
+	
+	var deadzone = 0.15
+	if joy_vector.length() > deadzone:
+		input_vector = joy_vector
 	
 	var dash_direction = Vector2.ZERO
 	
 	# Dash in any direction based on input
-	if abs(input_dir_x) > 0 or abs(input_dir_y) > 0:
-		dash_direction = Vector2(input_dir_x, input_dir_y).normalized()
+	if input_vector.length() > 0:
+		dash_direction = input_vector.normalized()
 	else:
 		# No input - dash in facing direction
 		dash_direction = Vector2(1 if facing_right else -1, 0)
