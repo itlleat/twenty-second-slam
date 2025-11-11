@@ -5,23 +5,19 @@ enum PlayerState {
 	WALKING,
 	WALK_UP,
 	WALK_DOWN,
-	DASHING,
-	PUNCHING,
-	DASH_PUNCHING
+	DASHING
 }
 
 var current_state = PlayerState.IDLE
 var move_speed = 600.0
 var dash_force = 1800.0
-var dash_duration = 0.15
+var dash_duration = 0.19
 var gravity = 980.0
-var can_punch = true
-var punch_cooldown = 0.06
-var punch_timer = 0.0
+var punch_flash_rate = 10.0  # Flashes per second
+var punch_flash_timer = 0.0
+var is_punching = false
 var dash_timer = 0.0
-var dash_cooldown = 0.1
-var dash_cooldown_timer = 0.0
-var can_dash = true
+var is_dashing = false
 var facing_right = true
 
 var punch_area: Area2D
@@ -71,27 +67,18 @@ func _ready():
 	# 	add_child(collision)
 
 func _physics_process(delta):
-	# Handle dash cooldown
-	if dash_cooldown_timer > 0:
-		dash_cooldown_timer -= delta
-		if dash_cooldown_timer <= 0:
-			can_dash = true
-	
-	# Handle dash input - can interrupt most states
-	if Input.is_action_just_pressed("jump") and can_dash:
-		if current_state == PlayerState.PUNCHING:
-			# Dash while punching - enter dash-punch state
-			start_dash_punch()
-		elif current_state != PlayerState.DASHING and current_state != PlayerState.DASH_PUNCHING:
-			start_dash()
-	
-	# Handle punch input - can interrupt most states
-	if Input.is_action_just_pressed("punch") and can_punch:
-		if current_state == PlayerState.DASHING:
-			# Punch while dashing - enter dash-punch state
-			start_dash_punch()
-		elif current_state != PlayerState.PUNCHING and current_state != PlayerState.DASH_PUNCHING:
+	# Handle punch input - completely asynchronous, works anywhere
+	if Input.is_action_pressed("punch"):
+		if not is_punching:
 			start_punch()
+		handle_punch_flash(delta)
+	else:
+		if is_punching:
+			stop_punch()
+	
+	# Handle dash input - only works in movement areas
+	if Input.is_action_just_pressed("jump") and can_move_vertically:
+		start_dash()
 	
 	match current_state:
 		PlayerState.IDLE:
@@ -104,8 +91,6 @@ func _physics_process(delta):
 			handle_walk_down_state(delta)
 		PlayerState.DASHING:
 			handle_dashing_state(delta)
-		PlayerState.PUNCHING:
-			handle_punching_state(delta)
 	
 	# No gravity - all movement is contained within free movement area
 	
@@ -146,25 +131,14 @@ func handle_dashing_state(delta):
 	if dash_timer <= 0:
 		# End dash
 		current_state = PlayerState.IDLE
-		# Start dash cooldown
-		dash_cooldown_timer = dash_cooldown
-		can_dash = false
+		is_dashing = false
 		# Slow down after dash
 		velocity.x *= 0.5
 		if can_move_vertically:
 			velocity.y *= 0.5
 	# Don't handle input during dash - keep dash velocity
 
-func handle_punching_state(delta):
-	velocity.x = 0
-	punch_timer -= delta
-	if punch_timer <= 0:
-		current_state = PlayerState.IDLE
-		can_punch = true
-		punch_area.visible = false
-		# Disable collision when not punching
-		punch_area.monitoring = false
-		punch_area.monitorable = false
+
 
 func handle_movement_input():
 	# Only allow input when in free movement area
@@ -209,18 +183,10 @@ func handle_movement_input():
 	if input_vector.x != 0:
 		facing_right = input_vector.x > 0
 
-	if Input.is_action_just_pressed("punch") and can_punch:
-		start_punch()
-
 func start_dash():
-	# Debug: Check dash conditions
-	if not can_dash:
-		print("Cannot dash: can_dash is false, cooldown remaining: ", dash_cooldown_timer)
-		return
-	
 	print("Starting dash!")
 	current_state = PlayerState.DASHING
-	can_dash = false
+	is_dashing = true
 	dash_timer = dash_duration
 	
 	# Get current input for dash direction using the same method as movement
@@ -259,27 +225,50 @@ func start_dash():
 	print("Dashing in direction: ", dash_direction)
 
 func start_punch():
-	current_state = PlayerState.PUNCHING
-	can_punch = false
-	punch_timer = punch_cooldown
+	is_punching = true
+	punch_flash_timer = 0.0
 	
 	# Position punch hitbox based on facing direction
 	var horizontal_offset := 40.0
 	punch_area.position = Vector2(horizontal_offset if facing_right else -horizontal_offset, -40)
 	
-	punch_area.visible = true  # Show the punch hitbox
-	# Enable collision only while punching
+	# Enable collision while punching
 	punch_area.monitoring = true
 	punch_area.monitorable = true
 
+func stop_punch():
+	is_punching = false
+	punch_area.visible = false
+	punch_area.monitoring = false
+	punch_area.monitorable = false
+
+func handle_punch_flash(delta):
+	punch_flash_timer += delta
+	var flash_period = 1.0 / punch_flash_rate
+	
+	# Update punch position based on current facing direction
+	var horizontal_offset := 40.0
+	punch_area.position = Vector2(horizontal_offset if facing_right else -horizontal_offset, -40)
+	
+	# Toggle both visibility AND collision detection with each flash
+	var should_be_active = fmod(punch_flash_timer, flash_period) < (flash_period * 0.5)
+	punch_area.visible = should_be_active
+	punch_area.monitoring = should_be_active
+	punch_area.monitorable = should_be_active
+
 func update_state():
-	if current_state != PlayerState.PUNCHING and current_state != PlayerState.DASHING:
-		if can_move_vertically:
-			# In free movement area - use any movement for walking state
-			if abs(velocity.x) > 0 or abs(velocity.y) > 0:
-				current_state = PlayerState.WALKING
-			else:
-				current_state = PlayerState.IDLE
+	# Dashing takes priority for movement state
+	if is_dashing:
+		current_state = PlayerState.DASHING
+		return
+	
+	# Handle movement states based on actual movement
+	if can_move_vertically:
+		# In free movement area - use any movement for walking state
+		if abs(velocity.x) > 0 or abs(velocity.y) > 0:
+			current_state = PlayerState.WALKING
 		else:
-			# Outside free movement area - always idle (no movement allowed)
 			current_state = PlayerState.IDLE
+	else:
+		# Outside free movement area - always idle (no movement allowed)
+		current_state = PlayerState.IDLE

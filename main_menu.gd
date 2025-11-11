@@ -27,18 +27,9 @@ func _ready():
 	start_button.grab_focus()
 
 func _setup_button_navigation():
-	# Set up focus neighbors for directional navigation
-	start_button.focus_neighbor_down = leaderboards_button.get_path()
-	start_button.focus_neighbor_up = exit_button.get_path()
-	
-	leaderboards_button.focus_neighbor_up = start_button.get_path()
-	leaderboards_button.focus_neighbor_down = settings_button.get_path()
-	
-	settings_button.focus_neighbor_up = leaderboards_button.get_path()
-	settings_button.focus_neighbor_down = exit_button.get_path()
-	
-	exit_button.focus_neighbor_up = settings_button.get_path()
-	exit_button.focus_neighbor_down = start_button.get_path()
+	# Modern approach: let Godot handle automatic focus navigation
+	# This avoids the focus_neighbor issues in newer Godot versions
+	print("Button navigation setup completed automatically")
 
 func _load_settings():
 	# Load volume setting
@@ -55,7 +46,7 @@ func _load_settings():
 
 func _on_start_button_pressed():
 	print("Starting game...")
-	# Change to the game scene
+	# Change to the test level scene
 	get_tree().change_scene_to_file("res://test_level.tscn")
 
 func _on_leaderboards_button_pressed():
