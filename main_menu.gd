@@ -14,17 +14,27 @@ extends Control
 @onready var exit_button = $MainContainer/MenuButtons/ExitButton
 
 func _ready():
+	print("MainMenu _ready() started")
+	
+	# Use call_deferred to ensure all nodes are ready
+	call_deferred("_initialize_menu")
+
+func _initialize_menu():
 	# Initialize settings with current values
 	_load_settings()
 	
 	# Ensure settings panel is hidden initially
-	settings_panel.visible = false
+	if settings_panel:
+		settings_panel.visible = false
 	
 	# Set up button navigation
 	_setup_button_navigation()
 	
 	# Focus the start button initially
-	start_button.grab_focus()
+	if start_button:
+		start_button.grab_focus()
+	
+	print("MainMenu initialized successfully")
 
 func _setup_button_navigation():
 	# Modern approach: let Godot handle automatic focus navigation
@@ -32,17 +42,30 @@ func _setup_button_navigation():
 	print("Button navigation setup completed automatically")
 
 func _load_settings():
-	# Load volume setting
-	var master_bus = AudioServer.get_bus_index("Master")
-	var volume_db = AudioServer.get_bus_volume_db(master_bus)
-	var volume_linear = db_to_linear(volume_db)
-	volume_slider.value = volume_linear * 100
+	print("Loading settings...")
 	
-	# Load fullscreen setting
-	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
-		fullscreen_checkbox.button_pressed = true
+	# Load volume setting - with null check
+	if volume_slider and is_instance_valid(volume_slider):
+		var master_bus = AudioServer.get_bus_index("Master")
+		if master_bus >= 0:
+			var volume_db = AudioServer.get_bus_volume_db(master_bus)
+			var volume_linear = db_to_linear(volume_db)
+			volume_slider.value = volume_linear * 100
+			print("Volume loaded successfully: ", volume_linear * 100)
+		else:
+			print("Master audio bus not found")
 	else:
-		fullscreen_checkbox.button_pressed = false
+		print("Volume slider not available")
+	
+	# Load fullscreen setting - with null check
+	if fullscreen_checkbox and is_instance_valid(fullscreen_checkbox):
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+			fullscreen_checkbox.button_pressed = true
+		else:
+			fullscreen_checkbox.button_pressed = false
+		print("Fullscreen setting loaded successfully")
+	else:
+		print("Fullscreen checkbox not available")
 
 func _on_start_button_pressed():
 	print("Starting game...")
