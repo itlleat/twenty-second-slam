@@ -23,6 +23,7 @@ var facing_right = true
 var punch_area: Area2D
 var punch_rect: ColorRect
 var player_body: ColorRect
+var player_sprite: AnimatedSprite2D
 var can_move_vertically = false
 
 func _ready():
@@ -47,6 +48,8 @@ func _ready():
 
 	punch_area = $PunchHitBox
 	punch_rect = $PunchHitBox/PunchRect
+	player_body = $PlayerBody
+	player_sprite = $PlayerSprite
 	
 	# Start with punch hitbox disabled
 	punch_area.visible = false
@@ -260,15 +263,53 @@ func update_state():
 	# Dashing takes priority for movement state
 	if is_dashing:
 		current_state = PlayerState.DASHING
-		return
-	
-	# Handle movement states based on actual movement
-	if can_move_vertically:
-		# In free movement area - use any movement for walking state
+	elif can_move_vertically:
+		# In free movement area - determine state based on movement
 		if abs(velocity.x) > 0 or abs(velocity.y) > 0:
-			current_state = PlayerState.WALKING
+			# Determine specific movement state
+			if abs(velocity.y) > abs(velocity.x):
+				if velocity.y < 0:
+					current_state = PlayerState.WALK_UP
+				else:
+					current_state = PlayerState.WALK_DOWN
+			else:
+				current_state = PlayerState.WALKING
 		else:
 			current_state = PlayerState.IDLE
 	else:
 		# Outside free movement area - always idle (no movement allowed)
 		current_state = PlayerState.IDLE
+	
+	# Update sprite direction and animation
+	update_sprite_and_animation()
+
+func update_sprite_and_animation():
+	# Update facing direction for sprite
+	if velocity.x > 0:
+		facing_right = true
+		player_sprite.flip_h = false
+	elif velocity.x < 0:
+		facing_right = false
+		player_sprite.flip_h = true
+	
+	# Play appropriate animation based on current state
+	var animation_name = ""
+	match current_state:
+		PlayerState.IDLE:
+			animation_name = "idle"
+		PlayerState.WALKING:
+			animation_name = "walking"
+		PlayerState.WALK_UP:
+			animation_name = "walk_up"
+		PlayerState.WALK_DOWN:
+			animation_name = "walk_down"
+		PlayerState.DASHING:
+			animation_name = "dashing"
+	
+	# Only change animation if it's different from current
+	if player_sprite.animation != animation_name and animation_name != "":
+		player_sprite.play(animation_name)
+	
+	# Handle punch animation overlay
+	if is_punching and not player_sprite.is_playing():
+		player_sprite.play("punching")

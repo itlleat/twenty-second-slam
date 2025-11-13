@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[resource]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"dashing",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"punching",
+"speed": 15.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_up",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walking",
+"speed": 8.0
+}]
