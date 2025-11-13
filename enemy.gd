@@ -5,7 +5,7 @@ signal enemy_died(enemy_position)
 var health = 10
 var flash_duration = 0.1
 var shake_duration = 0.2
-var shake_intensity = 6.0
+var shake_intensity = 2.0
 var is_flashing = false
 var is_shaking = false
 var flash_timer = 0.0
