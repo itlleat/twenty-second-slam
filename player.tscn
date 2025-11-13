@@ -1,10 +1,45 @@
-[gd_scene load_steps=5 format=3 uid="uid://baxeutytpeu4r"]
+[gd_scene load_steps=11 format=3 uid="uid://baxeutytpeu4r"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_fu8mh"]
+[ext_resource type="Texture2D" uid="uid://b0420tlm66epn" path="res://walk_1.png" id="2_dplf0"]
+[ext_resource type="Texture2D" uid="uid://bk5ust3c5s1yi" path="res://walk_2.png" id="3_ayubm"]
+[ext_resource type="Texture2D" uid="uid://by7lv6bdpsga7" path="res://walk_3.png" id="4_yerl7"]
+[ext_resource type="Texture2D" uid="uid://d3gnk01g8u43g" path="res://walk_4.png" id="5_ndenl"]
+[ext_resource type="Texture2D" uid="uid://d0f2lu287eyio" path="res://walk_5.png" id="6_kyghu"]
+[ext_resource type="Texture2D" uid="uid://b8g6s5i5exnqk" path="res://walk_6.png" id="7_6j7cf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_edxb0"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_dplf0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ayubm")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_dplf0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ayubm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_yerl7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ndenl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_kyghu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_6j7cf")
+}],
 "loop": true,
 "name": &"walking",
 "speed": 5.0
@@ -21,16 +56,17 @@ position = Vector2(20, -20)
 script = ExtResource("1_fu8mh")
 metadata/_edit_group_ = true
 
-[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_edxb0")
-animation = &"walking"
-
 [node name="PlayerBody" type="ColorRect" parent="."]
+visible = false
 offset_left = -20.0
 offset_top = -82.0
 offset_right = 20.0
 offset_bottom = 20.0
 color = Color(0, 1, 0, 1)
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_edxb0")
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_56n1y")
