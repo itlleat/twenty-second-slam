@@ -53,6 +53,9 @@ func _process(delta):
 func take_hit():
 	health -= 1
 	print("Enemy took hit! Health now: ", health)
+	
+	# Report damage to GameManager (1 damage per hit)
+	GameManager.add_damage(1)
 
 	# Start flash effect (overlay so we don't rely on original_color)
 	is_flashing = true
@@ -66,6 +69,8 @@ func take_hit():
 
 	if health <= 0:
 		print("Enemy dying at position: ", global_position)
+		# Report bonus damage for killing enemy
+		GameManager.add_damage(5)  # 5 bonus damage for killing enemy
 		# emit_signal("enemy_died", global_position)  # Signal death with position - COMMENTED OUT
 		queue_free()  # Remove enemy when health reaches 0
 
