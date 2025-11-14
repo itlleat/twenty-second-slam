@@ -18,9 +18,22 @@ func _ready():
 	# respawn_timer.timeout.connect(_on_respawn_timer_timeout)
 	# add_child(respawn_timer)
 	
+	# Connect to GameManager signals
+	GameManager.game_started.connect(_on_game_started)
+	GameManager.game_ended.connect(_on_game_ended)
+	
 	# print("About to spawn initial enemy")
 	# Spawn initial enemy - COMMENTED OUT
 	# spawn_enemy()
+	
+	# Start the game
+	GameManager.start_game()
+	
+	# Add some test damage for testing
+	await get_tree().create_timer(2.0).timeout
+	print("Adding test damage...")
+	GameManager.add_damage(10)  # Test scoring
+	
 	print("TestLevel _ready() finished")
 
 func spawn_enemy():
@@ -37,21 +50,34 @@ func spawn_enemy():
 			enemy.global_position = last_enemy_position
 			# COMMENTED OUT - Signal connection for respawning
 			# if enemy.has_signal("enemy_died"):
-			# 	enemy.enemy_died.connect(_on_enemy_died)
+			#	enemy.enemy_died.connect(_on_enemy_died)
 			# else:
-			# 	print("Warning: enemy instance has no 'enemy_died' signal")
+			#	print("Warning: enemy instance has no 'enemy_died' signal")
 			print("Enemy spawned at global position: ", enemy.global_position)
 		else:
 			print("Failed to instantiate enemy")
 	else:
 		print("Failed to load enemy scene")
 
+func _on_game_started():
+	"""Called when GameManager starts the game"""
+	print("TestLevel: Game started")
+	# spawn_enemy()  # COMMENTED OUT - no auto enemy spawning
+
+func _on_game_ended(final_score: int):
+	"""Called when GameManager ends the game"""
+	print("TestLevel: Game ended with score: ", final_score)
+	# Stop spawning enemies
+	respawn_timer.stop()
+	# Transition to game over screen
+	get_tree().change_scene_to_file("res://game_over.tscn")
+
 # COMMENTED OUT - Enemy respawn functions
 # func _on_enemy_died(enemy_pos):
-# 	print("Enemy death signal received at position: ", enemy_pos)
-# 	last_enemy_position = enemy_pos  # Store position for respawn
-# 	respawn_timer.start()
+#	print("Enemy death signal received at position: ", enemy_pos)
+#	last_enemy_position = enemy_pos  # Store position for respawn
+#	respawn_timer.start()
 
 # func _on_respawn_timer_timeout():
-# 	print("Timer timeout - spawning enemy at position: ", last_enemy_position)
-# 	spawn_enemy()
+#	print("Timer timeout - spawning enemy at position: ", last_enemy_position)
+#	spawn_enemy()
