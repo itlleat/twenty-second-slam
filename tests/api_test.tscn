@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d23j6pb6x4vu8"]
+
+[ext_resource type="Script" path="res://tests/api_test.gd" id="1_vpv15"]
+
+[node name="ApiTest" type="Node2D"]
+script = ExtResource("1_vpv15")

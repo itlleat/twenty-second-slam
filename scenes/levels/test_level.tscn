@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://kf6ot565m4ke"]
+
+[ext_resource type="PackedScene" uid="uid://baxeutytpeu4r" path="res://scenes/player/player_new.tscn" id="1_2auna"]
+[ext_resource type="Script" path="res://scenes/levels/test_level.gd" id="1_dlgt2"]
+[ext_resource type="Script" path="res://scripts/entities/vertical_zone.gd" id="2_q524u"]
+[ext_resource type="PackedScene" uid="uid://c1ipunpbjutsu" path="res://scenes/enemies/enemy.tscn" id="3_cxdfw"]
+[ext_resource type="PackedScene" uid="uid://dvcoejwb3a56f" path="res://scenes/enemies/enemy_small.tscn" id="4_iyms8"]
+[ext_resource type="PackedScene" uid="uid://c3d4e5f6g7h8i" path="res://scenes/ui/pause_menu.tscn" id="6_pause_menu"]
+[ext_resource type="Script" path="res://scripts/managers/pause_manager.gd" id="7_pause_manager"]
+[ext_resource type="PackedScene" uid="uid://cnlu4oquga1he" path="res://scenes/enemies/enemy_tiny.tscn" id="8_vjmmv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3moeh"]
+size = Vector2(1150, 649)
+
+[node name="TestLevel" type="Node2D"]
+script = ExtResource("1_dlgt2")
+
+[node name="FreeMovementZone" type="Area2D" parent="."]
+position = Vector2(-302, -106)
+script = ExtResource("2_q524u")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeMovementZone"]
+position = Vector2(879, 432.5)
+shape = SubResource("RectangleShape2D_3moeh")
+
+[node name="ColorRect" type="ColorRect" parent="FreeMovementZone/CollisionShape2D"]
+offset_left = -577.0
+offset_top = -327.0
+offset_right = 575.0
+offset_bottom = 325.0
+color = Color(0.254902, 0.254902, 1, 0.588235)
+
+[node name="Player" parent="." instance=ExtResource("1_2auna")]
+position = Vector2(92, 467)
+
+[node name="Enemy" parent="." instance=ExtResource("3_cxdfw")]
+position = Vector2(577, 327)
+
+[node name="EnemySmall" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(931, 170)
+
+[node name="EnemySmall2" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(779, 0)
+
+[node name="EnemySmall3" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(931, 447)
+
+[node name="EnemySmall4" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(153, 223)
+
+[node name="EnemySmall5" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(269, 1)
+
+[node name="EnemySmall6" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(209, 426)
+
+[node name="EnemyTiny" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(169, 271)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("6_pause_menu")]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseManager" type="Node" parent="."]
+script = ExtResource("7_pause_manager")

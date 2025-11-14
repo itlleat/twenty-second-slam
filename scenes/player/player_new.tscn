@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://baxeutytpeu4r"]
+
+[ext_resource type="Script" path="res://scripts/entities/player.gd" id="1_fu8mh"]
+[ext_resource type="SpriteFrames" path="res://assets/animations/player_animations.tres" id="2_player_animations"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_56n1y"]
+size = Vector2(40, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tge7h"]
+size = Vector2(40, 40)
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(20, -20)
+script = ExtResource("1_fu8mh")
+metadata/_edit_group_ = true
+
+[node name="PlayerBody" type="ColorRect" parent="."]
+offset_left = -20.0
+offset_top = -82.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0, 1, 0, 1)
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -31)
+sprite_frames = ExtResource("2_player_animations")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_56n1y")
+
+[node name="PunchHitBox" type="Area2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="PunchRect" type="ColorRect" parent="PunchHitBox"]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(1, 1, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PunchHitBox"]
+shape = SubResource("RectangleShape2D_tge7h")
+
+[node name="Camera2D" type="Camera2D" parent="."]
