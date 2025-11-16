@@ -104,6 +104,7 @@ func connect_signals():
 	# Override this to connect custom signals
 	if hit_box:
 		hit_box.area_entered.connect(_on_hit_box_area_entered)
+		print(name, " HitBox - Layer: ", hit_box.collision_layer, " Mask: ", hit_box.collision_mask)
 
 # State handling functions - override for custom behavior
 func handle_spawning_state(_delta):
@@ -276,6 +277,8 @@ func update_visual_effects(delta):
 
 # Signal handlers
 func _on_hit_box_area_entered(area):
-	if area.name == "PunchHitBox" and current_state not in [EnemyState.FLYING, EnemyState.DEAD]:
-		print(name, " hit by punch!")
+	print(name, " detected area: ", area.name, " from parent: ", area.get_parent().name if area.get_parent() else "no parent")
+	if area.name in ["PunchHitBox", "KickHitBox"] and current_state not in [EnemyState.FLYING, EnemyState.DEAD]:
+		var attack_type = "punch" if area.name == "PunchHitBox" else "kick"
+		print(name, " hit by ", attack_type, "!")
 		take_hit()

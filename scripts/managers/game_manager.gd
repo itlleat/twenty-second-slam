@@ -22,8 +22,9 @@ func _process(delta):
 		var time_left = max(0, game_duration - game_timer)
 		emit_signal("time_changed", time_left)
 		
-		if time_left <= 0:
-			end_game()
+		# COMMENTED OUT FOR TESTING - Unlimited time
+		# if time_left <= 0:
+		# 	end_game()
 
 func start_game():
 	"""Start a new game session"""

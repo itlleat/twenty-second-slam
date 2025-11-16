@@ -5,23 +5,32 @@ enum PlayerState {
 	WALKING,
 	WALK_UP,
 	WALK_DOWN,
+	PUNCHING,
+	KICKING,
 	DASHING
 }
 
 var current_state = PlayerState.IDLE
 var move_speed = 600.0
 var dash_force = 1800.0
-var dash_duration = 0.19
+var dash_duration = 0.4
+var punch_duration = 0.2  # Duration of punch animation/action
+var punch_hitbox_start = 0.03  # When hitbox becomes active
+var punch_hitbox_end = 0.18  # When hitbox deactivates
+var kick_duration = 0.3  # Kicks are slightly slower than punches
+var kick_hitbox_start = 0.08  # When kick hitbox becomes active
+var kick_hitbox_end = 0.25  # When kick hitbox deactivates
 var gravity = 980.0
-var punch_flash_rate = 10.0  # Flashes per second
-var punch_flash_timer = 0.0
-var is_punching = false
+var punch_timer = 0.0
+var kick_timer = 0.0
+var kick_has_hit = false  # Track if kick has already hit this attack
 var dash_timer = 0.0
-var is_dashing = false
 var facing_right = true
 
 var punch_area: Area2D
 var punch_rect: ColorRect
+var kick_area: Area2D
+var kick_rect: ColorRect
 var player_body: ColorRect
 var player_sprite: AnimatedSprite2D
 var can_move_vertically = false
@@ -48,13 +57,33 @@ func _ready():
 
 	punch_area = $PunchHitBox
 	punch_rect = $PunchHitBox/PunchRect
+	
+	# Get kick hitbox if it exists, otherwise create it later
+	if has_node("KickHitBox"):
+		kick_area = $KickHitBox
+		kick_rect = $KickHitBox/KickRect
+	
 	player_body = $PlayerBody
 	player_sprite = $PlayerSprite
+	
+	# Force sprite to be centered and at consistent position
+	player_sprite.centered = true
+	player_sprite.offset = Vector2.ZERO
+	player_sprite.position = Vector2(0, -31)  # Adjust Y to align with collision shape
+	
+	# Start with idle animation
+	player_sprite.play("idle")
 	
 	# Start with punch hitbox disabled
 	punch_area.visible = false
 	punch_area.monitoring = false
 	punch_area.monitorable = false
+	
+	# Start with kick hitbox disabled
+	if kick_area:
+		kick_area.visible = false
+		kick_area.monitoring = false
+		kick_area.monitorable = false
 	
 	# Always ensure punch hitbox starts hidden
 	punch_area.visible = false
@@ -70,18 +99,20 @@ func _ready():
 	# 	add_child(collision)
 
 func _physics_process(delta):
-	# Handle punch input - completely asynchronous, works anywhere
-	if Input.is_action_pressed("punch"):
-		if not is_punching:
+	# Handle punch input - but only if not already punching or dashing
+	if Input.is_action_just_pressed("punch"):
+		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING, PlayerState.DASHING]:
 			start_punch()
-		handle_punch_flash(delta)
-	else:
-		if is_punching:
-			stop_punch()
 	
-	# Handle dash input - only works in movement areas
+	# Handle kick input - separate button for kick attacks
+	if Input.is_action_just_pressed("kick"):
+		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING, PlayerState.DASHING]:
+			start_kick()
+	
+	# Handle dash input - only works in movement areas and not while attacking
 	if Input.is_action_just_pressed("jump") and can_move_vertically:
-		start_dash()
+		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING]:
+			start_dash()
 	
 	match current_state:
 		PlayerState.IDLE:
@@ -92,16 +123,16 @@ func _physics_process(delta):
 			handle_walk_up_state(delta)
 		PlayerState.WALK_DOWN:
 			handle_walk_down_state(delta)
+		PlayerState.PUNCHING:
+			handle_punching_state(delta)
+		PlayerState.KICKING:
+			handle_kicking_state(delta)
 		PlayerState.DASHING:
 			handle_dashing_state(delta)
 	
 	# No gravity - all movement is contained within free movement area
 	
 	move_and_slide()
-	
-	
-
-	
 	update_state()
 
 func handle_idle_state(_delta):
@@ -130,12 +161,71 @@ func handle_walk_down_state(_delta):
 	# Same as walking state - free movement in all directions
 	handle_movement_input()
 
+func handle_punching_state(delta):
+	punch_timer -= delta
+	
+	# Stop all movement while punching
+	velocity = Vector2.ZERO
+	
+	# Manage hitbox visibility based on animation timing
+	var time_in_punch = punch_duration - punch_timer
+	if time_in_punch >= punch_hitbox_start and time_in_punch <= punch_hitbox_end:
+		# Hitbox active during this window
+		punch_area.visible = true
+		punch_area.monitoring = true
+		punch_area.monitorable = true
+	else:
+		# Hitbox inactive
+		punch_area.visible = false
+		punch_area.monitoring = false
+		punch_area.monitorable = false
+	
+	# End punch when timer expires
+	if punch_timer <= 0:
+		stop_punch()
+		current_state = PlayerState.IDLE
+
+func handle_kicking_state(delta):
+	kick_timer -= delta
+	
+	# Stop all movement while kicking
+	velocity = Vector2.ZERO
+	
+	# Manage kick hitbox visibility based on animation timing (EXACTLY like punch)
+	var time_in_kick = kick_duration - kick_timer
+	if time_in_kick >= kick_hitbox_start and time_in_kick <= kick_hitbox_end:
+		# Hitbox active during this window
+		kick_area.visible = true
+		kick_area.monitoring = true
+		kick_area.monitorable = true
+		
+		# WORKAROUND: Manually check for overlaps and call enemy hit detection
+		# For some reason area_entered signal doesn't fire for kick
+		if not kick_has_hit:
+			var overlapping = kick_area.get_overlapping_areas()
+			for area in overlapping:
+				if area.name == "HitBox":
+					var enemy = area.get_parent()
+					if enemy and enemy.has_method("take_hit"):
+						enemy.take_hit(2)  # Kicks do 2 damage (punches do 1)
+						kick_has_hit = true  # Mark that we've hit
+						break
+	else:
+		# Hitbox inactive
+		kick_area.visible = false
+		kick_area.monitoring = false
+		kick_area.monitorable = false
+	
+	# End kick when timer expires
+	if kick_timer <= 0:
+		stop_kick()
+		current_state = PlayerState.IDLE
+
 func handle_dashing_state(delta):
 	dash_timer -= delta
 	if dash_timer <= 0:
 		# End dash
 		current_state = PlayerState.IDLE
-		is_dashing = false
 		# Slow down after dash
 		velocity.x *= 0.5
 		if can_move_vertically:
@@ -190,7 +280,6 @@ func handle_movement_input():
 func start_dash():
 	print("Starting dash!")
 	current_state = PlayerState.DASHING
-	is_dashing = true
 	dash_timer = dash_duration
 	
 	# Get current input for dash direction using the same method as movement
@@ -229,42 +318,73 @@ func start_dash():
 	print("Dashing in direction: ", dash_direction)
 
 func start_punch():
-	is_punching = true
-	punch_flash_timer = 0.0
+	print("Starting punch!")
+	
+	# Lock facing direction based on current movement or last facing
+	# This prevents the sprite from flipping mid-punch
+	if abs(velocity.x) > 10:
+		facing_right = velocity.x > 0
+		player_sprite.flip_h = not facing_right
+	
+	current_state = PlayerState.PUNCHING
+	punch_timer = punch_duration
 	
 	# Position punch hitbox based on facing direction
 	var horizontal_offset := 40.0
 	punch_area.position = Vector2(horizontal_offset if facing_right else -horizontal_offset, -40)
 	
-	# Enable collision while punching
-	punch_area.monitoring = true
-	punch_area.monitorable = true
-
-func stop_punch():
-	is_punching = false
+	# Hitbox starts disabled - will be enabled during animation window
 	punch_area.visible = false
 	punch_area.monitoring = false
 	punch_area.monitorable = false
 
-func handle_punch_flash(delta):
-	punch_flash_timer += delta
-	var flash_period = 1.0 / punch_flash_rate
+func stop_punch():
+	# Disable hitbox when punch ends
+	punch_area.visible = false
+	punch_area.monitoring = false
+	punch_area.monitorable = false
+
+func start_kick():
+	print("Starting kick!")
 	
-	# Update punch position based on current facing direction
-	var horizontal_offset := 40.0
-	punch_area.position = Vector2(horizontal_offset if facing_right else -horizontal_offset, -40)
+	# Lock facing direction based on current movement or last facing
+	if abs(velocity.x) > 10:
+		facing_right = velocity.x > 0
 	
-	# Toggle both visibility AND collision detection with each flash
-	var should_be_active = fmod(punch_flash_timer, flash_period) < (flash_period * 0.5)
-	punch_area.visible = should_be_active
-	punch_area.monitoring = should_be_active
-	punch_area.monitorable = should_be_active
+	# Apply reversed flip for kick animation (sprites face left by default)
+	player_sprite.flip_h = facing_right
+	
+	current_state = PlayerState.KICKING
+	kick_timer = kick_duration
+	kick_has_hit = false  # Reset hit flag for new kick
+	
+	# Position kick hitbox based on facing direction (EXACTLY like punch)
+	var horizontal_offset := 45.0
+	kick_area.position = Vector2(horizontal_offset if facing_right else -horizontal_offset, -20)
+	
+	# Hitbox starts disabled - will be enabled during animation window
+	kick_area.visible = false
+	kick_area.monitoring = false
+	kick_area.monitorable = false
+
+func stop_kick():
+	# Disable kick hitbox when kick ends (same as punch logic)
+	kick_area.visible = false
+	kick_area.monitoring = false
+	kick_area.monitorable = false
+	
+	# Restore correct flip state based on facing direction
+	# (kick animation has reversed flip, so we need to restore normal flip logic)
+	player_sprite.flip_h = not facing_right
 
 func update_state():
-	# Dashing takes priority for movement state
-	if is_dashing:
-		current_state = PlayerState.DASHING
-	elif can_move_vertically:
+	# Don't change state if punching, kicking, or dashing (they manage their own state)
+	if current_state in [PlayerState.PUNCHING, PlayerState.KICKING, PlayerState.DASHING]:
+		# Update ONLY the sprite for these states, don't recalculate state
+		update_sprite_for_committed_state()
+		return
+	
+	if can_move_vertically:
 		# In free movement area - determine state based on movement
 		if abs(velocity.x) > 0 or abs(velocity.y) > 0:
 			# Determine specific movement state
@@ -285,13 +405,15 @@ func update_state():
 	update_sprite_and_animation()
 
 func update_sprite_and_animation():
-	# Update facing direction for sprite
-	if velocity.x > 0:
-		facing_right = true
-		player_sprite.flip_h = false
-	elif velocity.x < 0:
-		facing_right = false
-		player_sprite.flip_h = true
+	# Update facing direction for sprite ONLY when moving
+	# Don't change facing during punch/dash to prevent flipping mid-action
+	if abs(velocity.x) > 10:  # Small threshold to avoid jitter
+		if velocity.x > 0:
+			facing_right = true
+			player_sprite.flip_h = false
+		elif velocity.x < 0:
+			facing_right = false
+			player_sprite.flip_h = true
 	
 	# Play appropriate animation based on current state
 	var animation_name = ""
@@ -304,13 +426,38 @@ func update_sprite_and_animation():
 			animation_name = "walk_up"
 		PlayerState.WALK_DOWN:
 			animation_name = "walk_down"
+		PlayerState.PUNCHING:
+			animation_name = "punching"
+		PlayerState.KICKING:
+			animation_name = "kicking"
 		PlayerState.DASHING:
 			animation_name = "dashing"
 	
 	# Only change animation if it's different from current
 	if player_sprite.animation != animation_name and animation_name != "":
 		player_sprite.play(animation_name)
+		# Force sprite to stay centered when switching animations
+		player_sprite.centered = true
+		player_sprite.offset = Vector2.ZERO
+
+func update_sprite_for_committed_state():
+	# For punching, kicking, and dashing, just ensure the right animation is playing
+	# Don't change facing direction or interrupt the animation
+	var expected_animation = ""
+	if current_state == PlayerState.PUNCHING:
+		expected_animation = "punching"
+	elif current_state == PlayerState.KICKING:
+		expected_animation = "kicking"
+		# Don't update flip_h during kick - it was set in start_kick()
+		if player_sprite.animation != expected_animation:
+			player_sprite.play(expected_animation)
+		return  # Early return to skip the normal flip logic
+	elif current_state == PlayerState.DASHING:
+		expected_animation = "dashing"
 	
-	# Handle punch animation overlay
-	if is_punching and not player_sprite.is_playing():
-		player_sprite.play("punching")
+	# Only play if animation changed (prevents restarting)
+	if player_sprite.animation != expected_animation:
+		player_sprite.play(expected_animation)
+		# Force sprite to stay centered when switching animations
+		player_sprite.centered = true
+		player_sprite.offset = Vector2.ZERO

@@ -50,12 +50,12 @@ func _process(delta):
 			if flash_overlay:
 				flash_overlay.position = enemy_body.position
 
-func take_hit():
-	health -= 1
+func take_hit(damage: int = 1):
+	health -= damage
 	print("Enemy took hit! Health now: ", health)
 	
-	# Report damage to GameManager (1 damage per hit)
-	GameManager.add_damage(1)
+	# Report damage to GameManager (damage per hit)
+	GameManager.add_damage(damage)
 
 	# Start flash effect (overlay so we don't rely on original_color)
 	is_flashing = true
