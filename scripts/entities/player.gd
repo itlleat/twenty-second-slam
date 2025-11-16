@@ -99,14 +99,14 @@ func _ready():
 	# 	add_child(collision)
 
 func _physics_process(delta):
-	# Handle punch input - but only if not already punching or dashing
+	# Handle punch input - can cancel dash
 	if Input.is_action_just_pressed("punch"):
-		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING, PlayerState.DASHING]:
+		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING]:
 			start_punch()
 	
-	# Handle kick input - separate button for kick attacks
+	# Handle kick input - can cancel dash
 	if Input.is_action_just_pressed("kick"):
-		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING, PlayerState.DASHING]:
+		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING]:
 			start_kick()
 	
 	# Handle dash input - only works in movement areas and not while attacking
