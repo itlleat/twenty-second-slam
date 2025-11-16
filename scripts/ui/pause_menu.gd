@@ -3,6 +3,8 @@ extends Control
 # Pause menu controller script
 # Handles pause menu functionality and settings
 
+var is_paused = false  # Track pause state for PauseManager
+
 @onready var pause_panel = $PausePanel
 @onready var settings_panel = $SettingsPanel
 @onready var volume_slider = $SettingsPanel/SettingsContainer/VolumeContainer/VolumeSlider
@@ -18,12 +20,29 @@ func _ready():
 	# Initialize settings with current values
 	_load_settings()
 	
-	# Ensure correct panel visibility
+	# Ensure correct panel visibility and hide menu initially
 	pause_panel.visible = true
 	settings_panel.visible = false
+	visible = false
+	is_paused = false
 	
 	# Focus the resume button initially
 	resume_button.grab_focus()
+
+# Called by PauseManager
+func pause_game():
+	is_paused = true
+	visible = true
+	get_tree().paused = true
+	pause_panel.visible = true
+	settings_panel.visible = false
+	resume_button.grab_focus()
+
+# Called by PauseManager
+func resume_game():
+	is_paused = false
+	visible = false
+	get_tree().paused = false
 
 func _load_settings():
 	# Load volume setting
@@ -40,8 +59,7 @@ func _load_settings():
 
 func _on_resume_button_pressed():
 	print("Resuming game...")
-	get_tree().paused = false
-	visible = false
+	resume_game()
 
 func _on_restart_button_pressed():
 	print("Restarting level...")
@@ -86,8 +104,9 @@ func _on_back_button_pressed():
 
 # Handle input for quick navigation
 func _input(event):
+	if not visible:
+		return  # Don't handle input when menu is hidden
+		
 	if event.is_action_pressed("ui_cancel") and settings_panel.visible:
 		_on_back_button_pressed()
-	elif event.is_action_pressed("pause") or event.is_action_pressed("ui_cancel"):
-		if visible:
-			_on_resume_button_pressed()
+		get_viewport().set_input_as_handled()
