@@ -38,25 +38,1276 @@ position = Vector2(103, 442)
 position = Vector2(577, 327)
 
 [node name="EnemySmall" parent="." instance=ExtResource("4_iyms8")]
-position = Vector2(931, 170)
+position = Vector2(99, 332)
 
 [node name="EnemySmall2" parent="." instance=ExtResource("4_iyms8")]
-position = Vector2(779, 0)
+position = Vector2(320, 296)
 
 [node name="EnemySmall3" parent="." instance=ExtResource("4_iyms8")]
-position = Vector2(931, 447)
+position = Vector2(368, 473)
 
 [node name="EnemySmall4" parent="." instance=ExtResource("4_iyms8")]
-position = Vector2(153, 223)
+position = Vector2(166, 202)
 
 [node name="EnemySmall5" parent="." instance=ExtResource("4_iyms8")]
-position = Vector2(269, 1)
+position = Vector2(356, 131)
 
 [node name="EnemySmall6" parent="." instance=ExtResource("4_iyms8")]
-position = Vector2(209, 426)
+position = Vector2(184, 549)
+
+[node name="EnemySmall7" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(1049, 120)
+
+[node name="EnemySmall8" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(1053, 271)
+
+[node name="EnemySmall9" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(1078, 424)
+
+[node name="EnemySmall10" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(914, 456)
+
+[node name="EnemySmall11" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(884, 239)
+
+[node name="EnemySmall12" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(733, 503)
+
+[node name="EnemySmall13" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(893, 550)
+
+[node name="EnemySmall14" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(823, 331)
+
+[node name="EnemySmall15" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(462, 584)
+
+[node name="EnemySmall16" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(320, 554)
+
+[node name="EnemySmall17" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(246, 406)
+
+[node name="EnemySmall18" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(431, 344)
+
+[node name="EnemySmall19" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(720, 176)
+
+[node name="EnemySmall20" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(752, 265)
+
+[node name="EnemySmall21" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(626, 512)
+
+[node name="EnemySmall22" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(573, 121)
+
+[node name="EnemySmall23" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(573, 121)
+
+[node name="EnemySmall24" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(822, 87)
+
+[node name="EnemySmall25" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(811, 217)
+
+[node name="EnemySmall26" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(726, 377)
+
+[node name="EnemySmall27" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(922, 349)
+
+[node name="EnemySmall28" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(1030, 545)
+
+[node name="EnemySmall29" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(654, 590)
+
+[node name="EnemySmall30" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(213, 286)
+
+[node name="EnemySmall31" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(303, 222)
+
+[node name="EnemySmall32" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(221, 82)
+
+[node name="EnemySmall33" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(491, 48)
+
+[node name="EnemySmall34" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(73, 580)
+
+[node name="EnemySmall35" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(783, 590)
+
+[node name="EnemySmall36" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(961, 80)
+
+[node name="EnemySmall37" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(77, 52)
+
+[node name="EnemySmall38" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(709, 74)
+
+[node name="EnemySmall39" parent="." instance=ExtResource("4_iyms8")]
+position = Vector2(979, 202)
 
 [node name="EnemyTiny" parent="." instance=ExtResource("8_vjmmv")]
-position = Vector2(169, 271)
+position = Vector2(149, 270)
+
+[node name="EnemyTiny2" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(162, 300)
+
+[node name="EnemyTiny3" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(185, 335)
+
+[node name="EnemyTiny4" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(232, 265)
+
+[node name="EnemyTiny5" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(245, 295)
+
+[node name="EnemyTiny6" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(268, 330)
+
+[node name="EnemyTiny7" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(187, 243)
+
+[node name="EnemyTiny8" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(200, 273)
+
+[node name="EnemyTiny9" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(223, 308)
+
+[node name="EnemyTiny10" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(197, 396)
+
+[node name="EnemyTiny11" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(220, 431)
+
+[node name="EnemyTiny12" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(267, 361)
+
+[node name="EnemyTiny13" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(280, 391)
+
+[node name="EnemyTiny14" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(303, 426)
+
+[node name="EnemyTiny15" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(222, 339)
+
+[node name="EnemyTiny16" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(235, 369)
+
+[node name="EnemyTiny17" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(258, 404)
+
+[node name="EnemyTiny18" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(77, 403)
+
+[node name="EnemyTiny19" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(100, 438)
+
+[node name="EnemyTiny20" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(147, 368)
+
+[node name="EnemyTiny21" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(160, 398)
+
+[node name="EnemyTiny22" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(183, 433)
+
+[node name="EnemyTiny23" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(102, 346)
+
+[node name="EnemyTiny24" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(115, 376)
+
+[node name="EnemyTiny25" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(138, 411)
+
+[node name="EnemyTiny26" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(124, 516)
+
+[node name="EnemyTiny27" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(147, 551)
+
+[node name="EnemyTiny28" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(194, 481)
+
+[node name="EnemyTiny29" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(207, 511)
+
+[node name="EnemyTiny30" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(230, 546)
+
+[node name="EnemyTiny31" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(149, 459)
+
+[node name="EnemyTiny32" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(162, 489)
+
+[node name="EnemyTiny33" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(185, 524)
+
+[node name="EnemyTiny34" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(257, 523)
+
+[node name="EnemyTiny35" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(280, 558)
+
+[node name="EnemyTiny36" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(327, 488)
+
+[node name="EnemyTiny37" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(340, 518)
+
+[node name="EnemyTiny38" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(363, 553)
+
+[node name="EnemyTiny39" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(282, 466)
+
+[node name="EnemyTiny40" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(295, 496)
+
+[node name="EnemyTiny41" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(318, 531)
+
+[node name="EnemyTiny42" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(335, 377)
+
+[node name="EnemyTiny43" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(358, 412)
+
+[node name="EnemyTiny44" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(405, 342)
+
+[node name="EnemyTiny45" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(418, 372)
+
+[node name="EnemyTiny46" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(441, 407)
+
+[node name="EnemyTiny47" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(360, 320)
+
+[node name="EnemyTiny48" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(373, 350)
+
+[node name="EnemyTiny49" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(396, 385)
+
+[node name="EnemyTiny50" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(443, 374)
+
+[node name="EnemyTiny51" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(466, 409)
+
+[node name="EnemyTiny52" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(513, 339)
+
+[node name="EnemyTiny53" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(526, 369)
+
+[node name="EnemyTiny54" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(549, 404)
+
+[node name="EnemyTiny55" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(468, 317)
+
+[node name="EnemyTiny56" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(481, 347)
+
+[node name="EnemyTiny57" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(504, 382)
+
+[node name="EnemyTiny58" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(478, 470)
+
+[node name="EnemyTiny59" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(501, 505)
+
+[node name="EnemyTiny60" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(548, 435)
+
+[node name="EnemyTiny61" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(561, 465)
+
+[node name="EnemyTiny62" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(584, 500)
+
+[node name="EnemyTiny63" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(503, 413)
+
+[node name="EnemyTiny64" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(516, 443)
+
+[node name="EnemyTiny65" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(539, 478)
+
+[node name="EnemyTiny66" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(358, 477)
+
+[node name="EnemyTiny67" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(381, 512)
+
+[node name="EnemyTiny68" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(428, 442)
+
+[node name="EnemyTiny69" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(441, 472)
+
+[node name="EnemyTiny70" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(464, 507)
+
+[node name="EnemyTiny71" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(383, 420)
+
+[node name="EnemyTiny72" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(396, 450)
+
+[node name="EnemyTiny73" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(419, 485)
+
+[node name="EnemyTiny74" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(405, 590)
+
+[node name="EnemyTiny75" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(428, 625)
+
+[node name="EnemyTiny76" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(475, 555)
+
+[node name="EnemyTiny77" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(488, 585)
+
+[node name="EnemyTiny78" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(511, 620)
+
+[node name="EnemyTiny79" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(430, 533)
+
+[node name="EnemyTiny80" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(443, 563)
+
+[node name="EnemyTiny81" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(466, 598)
+
+[node name="EnemyTiny82" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(538, 597)
+
+[node name="EnemyTiny83" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(561, 632)
+
+[node name="EnemyTiny84" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(608, 562)
+
+[node name="EnemyTiny85" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(621, 592)
+
+[node name="EnemyTiny86" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(644, 627)
+
+[node name="EnemyTiny87" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(563, 540)
+
+[node name="EnemyTiny88" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(576, 570)
+
+[node name="EnemyTiny89" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(599, 605)
+
+[node name="EnemyTiny90" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(616, 451)
+
+[node name="EnemyTiny91" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(639, 486)
+
+[node name="EnemyTiny92" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(686, 416)
+
+[node name="EnemyTiny93" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(699, 446)
+
+[node name="EnemyTiny94" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(722, 481)
+
+[node name="EnemyTiny95" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(641, 394)
+
+[node name="EnemyTiny96" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(654, 424)
+
+[node name="EnemyTiny97" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(677, 459)
+
+[node name="EnemyTiny98" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(605, 80)
+
+[node name="EnemyTiny99" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(628, 115)
+
+[node name="EnemyTiny100" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(675, 45)
+
+[node name="EnemyTiny101" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(688, 75)
+
+[node name="EnemyTiny102" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(711, 110)
+
+[node name="EnemyTiny103" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(630, 23)
+
+[node name="EnemyTiny104" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(643, 53)
+
+[node name="EnemyTiny105" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(666, 88)
+
+[node name="EnemyTiny106" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(640, 176)
+
+[node name="EnemyTiny107" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(663, 211)
+
+[node name="EnemyTiny108" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(710, 141)
+
+[node name="EnemyTiny109" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(723, 171)
+
+[node name="EnemyTiny110" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(746, 206)
+
+[node name="EnemyTiny111" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(665, 119)
+
+[node name="EnemyTiny112" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(678, 149)
+
+[node name="EnemyTiny113" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(701, 184)
+
+[node name="EnemyTiny114" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(520, 183)
+
+[node name="EnemyTiny115" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(543, 218)
+
+[node name="EnemyTiny116" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(590, 148)
+
+[node name="EnemyTiny117" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(603, 178)
+
+[node name="EnemyTiny118" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(626, 213)
+
+[node name="EnemyTiny119" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(545, 126)
+
+[node name="EnemyTiny120" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(558, 156)
+
+[node name="EnemyTiny121" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(581, 191)
+
+[node name="EnemyTiny122" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(567, 296)
+
+[node name="EnemyTiny123" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(590, 331)
+
+[node name="EnemyTiny124" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(637, 261)
+
+[node name="EnemyTiny125" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(650, 291)
+
+[node name="EnemyTiny126" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(673, 326)
+
+[node name="EnemyTiny127" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(592, 239)
+
+[node name="EnemyTiny128" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(605, 269)
+
+[node name="EnemyTiny129" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(628, 304)
+
+[node name="EnemyTiny130" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(700, 303)
+
+[node name="EnemyTiny131" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(723, 338)
+
+[node name="EnemyTiny132" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(770, 268)
+
+[node name="EnemyTiny133" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(783, 298)
+
+[node name="EnemyTiny134" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(806, 333)
+
+[node name="EnemyTiny135" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(725, 246)
+
+[node name="EnemyTiny136" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(738, 276)
+
+[node name="EnemyTiny137" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(761, 311)
+
+[node name="EnemyTiny138" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(778, 157)
+
+[node name="EnemyTiny139" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(801, 192)
+
+[node name="EnemyTiny140" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(848, 122)
+
+[node name="EnemyTiny141" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(861, 152)
+
+[node name="EnemyTiny142" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(884, 187)
+
+[node name="EnemyTiny143" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(803, 100)
+
+[node name="EnemyTiny144" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(816, 130)
+
+[node name="EnemyTiny145" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(839, 165)
+
+[node name="EnemyTiny146" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(886, 154)
+
+[node name="EnemyTiny147" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(909, 189)
+
+[node name="EnemyTiny148" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(956, 119)
+
+[node name="EnemyTiny149" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(969, 149)
+
+[node name="EnemyTiny150" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(992, 184)
+
+[node name="EnemyTiny151" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(911, 97)
+
+[node name="EnemyTiny152" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(924, 127)
+
+[node name="EnemyTiny153" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(947, 162)
+
+[node name="EnemyTiny154" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(921, 250)
+
+[node name="EnemyTiny155" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(944, 285)
+
+[node name="EnemyTiny156" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(991, 215)
+
+[node name="EnemyTiny157" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1004, 245)
+
+[node name="EnemyTiny158" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1027, 280)
+
+[node name="EnemyTiny159" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(946, 193)
+
+[node name="EnemyTiny160" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(959, 223)
+
+[node name="EnemyTiny161" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(982, 258)
+
+[node name="EnemyTiny162" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(801, 257)
+
+[node name="EnemyTiny163" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(824, 292)
+
+[node name="EnemyTiny164" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(871, 222)
+
+[node name="EnemyTiny165" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(884, 252)
+
+[node name="EnemyTiny166" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(907, 287)
+
+[node name="EnemyTiny167" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(826, 200)
+
+[node name="EnemyTiny168" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(839, 230)
+
+[node name="EnemyTiny169" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(862, 265)
+
+[node name="EnemyTiny170" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(848, 370)
+
+[node name="EnemyTiny171" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(871, 405)
+
+[node name="EnemyTiny172" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(918, 335)
+
+[node name="EnemyTiny173" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(931, 365)
+
+[node name="EnemyTiny174" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(954, 400)
+
+[node name="EnemyTiny175" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(873, 313)
+
+[node name="EnemyTiny176" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(886, 343)
+
+[node name="EnemyTiny177" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(909, 378)
+
+[node name="EnemyTiny178" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(981, 377)
+
+[node name="EnemyTiny179" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1004, 412)
+
+[node name="EnemyTiny180" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1051, 342)
+
+[node name="EnemyTiny181" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1064, 372)
+
+[node name="EnemyTiny182" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1087, 407)
+
+[node name="EnemyTiny183" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1006, 320)
+
+[node name="EnemyTiny184" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1019, 350)
+
+[node name="EnemyTiny185" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1042, 385)
+
+[node name="EnemyTiny186" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1059, 231)
+
+[node name="EnemyTiny187" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1082, 266)
+
+[node name="EnemyTiny188" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1129, 196)
+
+[node name="EnemyTiny189" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1142, 226)
+
+[node name="EnemyTiny190" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1165, 261)
+
+[node name="EnemyTiny191" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1084, 174)
+
+[node name="EnemyTiny192" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1097, 204)
+
+[node name="EnemyTiny193" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1120, 239)
+
+[node name="EnemyTiny194" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(185, 67)
+
+[node name="EnemyTiny195" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(208, 102)
+
+[node name="EnemyTiny196" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(255, 32)
+
+[node name="EnemyTiny197" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(268, 62)
+
+[node name="EnemyTiny198" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(291, 97)
+
+[node name="EnemyTiny199" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(210, 10)
+
+[node name="EnemyTiny200" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(223, 40)
+
+[node name="EnemyTiny201" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(246, 75)
+
+[node name="EnemyTiny202" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(220, 163)
+
+[node name="EnemyTiny203" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(243, 198)
+
+[node name="EnemyTiny204" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(290, 128)
+
+[node name="EnemyTiny205" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(303, 158)
+
+[node name="EnemyTiny206" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(326, 193)
+
+[node name="EnemyTiny207" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(245, 106)
+
+[node name="EnemyTiny208" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(258, 136)
+
+[node name="EnemyTiny209" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(281, 171)
+
+[node name="EnemyTiny210" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(100, 170)
+
+[node name="EnemyTiny211" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(123, 205)
+
+[node name="EnemyTiny212" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(170, 135)
+
+[node name="EnemyTiny213" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(183, 165)
+
+[node name="EnemyTiny214" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(206, 200)
+
+[node name="EnemyTiny215" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(125, 113)
+
+[node name="EnemyTiny216" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(138, 143)
+
+[node name="EnemyTiny217" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(161, 178)
+
+[node name="EnemyTiny218" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(147, 283)
+
+[node name="EnemyTiny219" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(170, 318)
+
+[node name="EnemyTiny220" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(217, 248)
+
+[node name="EnemyTiny221" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(230, 278)
+
+[node name="EnemyTiny222" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(253, 313)
+
+[node name="EnemyTiny223" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(172, 226)
+
+[node name="EnemyTiny224" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(185, 256)
+
+[node name="EnemyTiny225" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(208, 291)
+
+[node name="EnemyTiny226" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(280, 290)
+
+[node name="EnemyTiny227" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(303, 325)
+
+[node name="EnemyTiny228" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(350, 255)
+
+[node name="EnemyTiny229" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(363, 285)
+
+[node name="EnemyTiny230" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(386, 320)
+
+[node name="EnemyTiny231" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(305, 233)
+
+[node name="EnemyTiny232" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(318, 263)
+
+[node name="EnemyTiny233" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(341, 298)
+
+[node name="EnemyTiny234" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(358, 144)
+
+[node name="EnemyTiny235" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(381, 179)
+
+[node name="EnemyTiny236" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(428, 109)
+
+[node name="EnemyTiny237" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(441, 139)
+
+[node name="EnemyTiny238" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(464, 174)
+
+[node name="EnemyTiny239" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(383, 87)
+
+[node name="EnemyTiny240" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(396, 117)
+
+[node name="EnemyTiny241" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(419, 152)
+
+[node name="EnemyTiny242" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(466, 141)
+
+[node name="EnemyTiny243" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(489, 176)
+
+[node name="EnemyTiny244" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(536, 106)
+
+[node name="EnemyTiny245" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(549, 136)
+
+[node name="EnemyTiny246" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(572, 171)
+
+[node name="EnemyTiny247" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(491, 84)
+
+[node name="EnemyTiny248" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(504, 114)
+
+[node name="EnemyTiny249" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(527, 149)
+
+[node name="EnemyTiny250" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(501, 237)
+
+[node name="EnemyTiny251" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(524, 272)
+
+[node name="EnemyTiny252" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(571, 202)
+
+[node name="EnemyTiny253" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(584, 232)
+
+[node name="EnemyTiny254" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(607, 267)
+
+[node name="EnemyTiny255" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(526, 180)
+
+[node name="EnemyTiny256" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(539, 210)
+
+[node name="EnemyTiny257" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(562, 245)
+
+[node name="EnemyTiny258" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(381, 244)
+
+[node name="EnemyTiny259" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(404, 279)
+
+[node name="EnemyTiny260" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(451, 209)
+
+[node name="EnemyTiny261" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(464, 239)
+
+[node name="EnemyTiny262" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(487, 274)
+
+[node name="EnemyTiny263" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(406, 187)
+
+[node name="EnemyTiny264" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(419, 217)
+
+[node name="EnemyTiny265" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(442, 252)
+
+[node name="EnemyTiny266" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(428, 357)
+
+[node name="EnemyTiny267" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(451, 392)
+
+[node name="EnemyTiny268" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(498, 322)
+
+[node name="EnemyTiny269" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(511, 352)
+
+[node name="EnemyTiny270" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(534, 387)
+
+[node name="EnemyTiny271" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(453, 300)
+
+[node name="EnemyTiny272" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(466, 330)
+
+[node name="EnemyTiny273" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(489, 365)
+
+[node name="EnemyTiny274" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(561, 364)
+
+[node name="EnemyTiny275" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(584, 399)
+
+[node name="EnemyTiny276" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(631, 329)
+
+[node name="EnemyTiny277" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(644, 359)
+
+[node name="EnemyTiny278" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(667, 394)
+
+[node name="EnemyTiny279" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(586, 307)
+
+[node name="EnemyTiny280" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(599, 337)
+
+[node name="EnemyTiny281" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(622, 372)
+
+[node name="EnemyTiny282" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(639, 218)
+
+[node name="EnemyTiny283" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(662, 253)
+
+[node name="EnemyTiny284" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(709, 183)
+
+[node name="EnemyTiny285" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(722, 213)
+
+[node name="EnemyTiny286" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(745, 248)
+
+[node name="EnemyTiny287" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(664, 161)
+
+[node name="EnemyTiny288" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(677, 191)
+
+[node name="EnemyTiny289" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(700, 226)
+
+[node name="EnemyTiny290" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(516, 298)
+
+[node name="EnemyTiny291" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(539, 333)
+
+[node name="EnemyTiny292" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(586, 263)
+
+[node name="EnemyTiny293" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(599, 293)
+
+[node name="EnemyTiny294" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(622, 328)
+
+[node name="EnemyTiny295" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(541, 241)
+
+[node name="EnemyTiny296" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(554, 271)
+
+[node name="EnemyTiny297" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(577, 306)
+
+[node name="EnemyTiny298" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(551, 394)
+
+[node name="EnemyTiny299" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(574, 429)
+
+[node name="EnemyTiny300" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(621, 359)
+
+[node name="EnemyTiny301" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(634, 389)
+
+[node name="EnemyTiny302" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(657, 424)
+
+[node name="EnemyTiny303" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(576, 337)
+
+[node name="EnemyTiny304" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(589, 367)
+
+[node name="EnemyTiny305" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(612, 402)
+
+[node name="EnemyTiny306" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(431, 401)
+
+[node name="EnemyTiny307" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(454, 436)
+
+[node name="EnemyTiny308" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(501, 366)
+
+[node name="EnemyTiny309" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(514, 396)
+
+[node name="EnemyTiny310" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(537, 431)
+
+[node name="EnemyTiny311" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(456, 344)
+
+[node name="EnemyTiny312" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(469, 374)
+
+[node name="EnemyTiny313" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(492, 409)
+
+[node name="EnemyTiny314" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(478, 514)
+
+[node name="EnemyTiny315" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(501, 549)
+
+[node name="EnemyTiny316" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(548, 479)
+
+[node name="EnemyTiny317" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(561, 509)
+
+[node name="EnemyTiny318" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(584, 544)
+
+[node name="EnemyTiny319" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(503, 457)
+
+[node name="EnemyTiny320" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(516, 487)
+
+[node name="EnemyTiny321" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(539, 522)
+
+[node name="EnemyTiny322" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(611, 521)
+
+[node name="EnemyTiny323" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(634, 556)
+
+[node name="EnemyTiny324" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(681, 486)
+
+[node name="EnemyTiny325" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(694, 516)
+
+[node name="EnemyTiny326" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(717, 551)
+
+[node name="EnemyTiny327" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(636, 464)
+
+[node name="EnemyTiny328" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(649, 494)
+
+[node name="EnemyTiny329" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(672, 529)
+
+[node name="EnemyTiny330" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(689, 375)
+
+[node name="EnemyTiny331" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(712, 410)
+
+[node name="EnemyTiny332" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(759, 340)
+
+[node name="EnemyTiny333" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(772, 370)
+
+[node name="EnemyTiny334" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(795, 405)
+
+[node name="EnemyTiny335" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(714, 318)
+
+[node name="EnemyTiny336" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(727, 348)
+
+[node name="EnemyTiny337" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(750, 383)
+
+[node name="EnemyTiny338" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(797, 372)
+
+[node name="EnemyTiny339" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(820, 407)
+
+[node name="EnemyTiny340" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(867, 337)
+
+[node name="EnemyTiny341" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(880, 367)
+
+[node name="EnemyTiny342" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(903, 402)
+
+[node name="EnemyTiny343" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(822, 315)
+
+[node name="EnemyTiny344" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(835, 345)
+
+[node name="EnemyTiny345" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(858, 380)
+
+[node name="EnemyTiny346" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(832, 468)
+
+[node name="EnemyTiny347" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(855, 503)
+
+[node name="EnemyTiny348" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(902, 433)
+
+[node name="EnemyTiny349" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(915, 463)
+
+[node name="EnemyTiny350" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(938, 498)
+
+[node name="EnemyTiny351" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(857, 411)
+
+[node name="EnemyTiny352" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(870, 441)
+
+[node name="EnemyTiny353" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(893, 476)
+
+[node name="EnemyTiny354" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(712, 475)
+
+[node name="EnemyTiny355" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(735, 510)
+
+[node name="EnemyTiny356" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(782, 440)
+
+[node name="EnemyTiny357" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(795, 470)
+
+[node name="EnemyTiny358" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(818, 505)
+
+[node name="EnemyTiny359" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(737, 418)
+
+[node name="EnemyTiny360" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(750, 448)
+
+[node name="EnemyTiny361" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(773, 483)
+
+[node name="EnemyTiny362" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(759, 588)
+
+[node name="EnemyTiny363" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(782, 623)
+
+[node name="EnemyTiny364" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(829, 553)
+
+[node name="EnemyTiny365" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(842, 583)
+
+[node name="EnemyTiny366" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(865, 618)
+
+[node name="EnemyTiny367" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(784, 531)
+
+[node name="EnemyTiny368" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(797, 561)
+
+[node name="EnemyTiny369" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(820, 596)
+
+[node name="EnemyTiny370" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(892, 595)
+
+[node name="EnemyTiny371" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(915, 630)
+
+[node name="EnemyTiny372" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(962, 560)
+
+[node name="EnemyTiny373" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(975, 590)
+
+[node name="EnemyTiny374" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(998, 625)
+
+[node name="EnemyTiny375" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(917, 538)
+
+[node name="EnemyTiny376" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(930, 568)
+
+[node name="EnemyTiny377" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(953, 603)
+
+[node name="EnemyTiny378" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(970, 449)
+
+[node name="EnemyTiny379" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(993, 484)
+
+[node name="EnemyTiny380" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1040, 414)
+
+[node name="EnemyTiny381" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1053, 444)
+
+[node name="EnemyTiny382" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1076, 479)
+
+[node name="EnemyTiny383" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(995, 392)
+
+[node name="EnemyTiny384" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1008, 422)
+
+[node name="EnemyTiny385" parent="." instance=ExtResource("8_vjmmv")]
+position = Vector2(1031, 457)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

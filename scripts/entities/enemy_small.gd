@@ -11,7 +11,9 @@ var is_shaking = false
 var flash_timer = 0.0
 var shake_timer = 0.0
 var original_position = Vector2.ZERO
+var original_sprite_position = Vector2.ZERO
 @onready var enemy_body = $EnemyBody
+@onready var enemy_sprite: AnimatedSprite2D
 var flash_overlay: ColorRect
 
 # Physics for flying when defeated
@@ -26,8 +28,14 @@ var player_passthrough_enabled = true
 
 func _ready():
 	enemy_body = $EnemyBody
-	flash_overlay = $FlashOverlay
+	if has_node("EnemySprite"):
+		enemy_sprite = $EnemySprite
+	elif has_node("AnimatedSprite2D"):
+		enemy_sprite = $AnimatedSprite2D
+	flash_overlay = $FlashOverlay if has_node("FlashOverlay") else null
 	original_position = enemy_body.position
+	if enemy_sprite:
+		original_sprite_position = enemy_sprite.position
 	
 	# Ensure flash overlay starts invisible
 	flash_overlay.visible = false
@@ -70,25 +78,23 @@ func _process(delta):
 			flash_timer -= delta
 			if flash_timer <= 0:
 				is_flashing = false
-				if flash_overlay:
-					flash_overlay.visible = false
+				if enemy_sprite:
+					enemy_sprite.modulate = Color(1, 1, 1, 1)  # Reset to normal
 
 		if is_shaking:
 			shake_timer -= delta
 			if shake_timer <= 0:
 				is_shaking = false
-				enemy_body.position = original_position
-				if flash_overlay:
-					flash_overlay.position = enemy_body.position
+				if enemy_sprite:
+					enemy_sprite.position = original_sprite_position
 			else:
 				# Random shake offset
 				var offset = Vector2(
 					randf_range(-1, 1) * shake_intensity,
 					randf_range(-1, 1) * shake_intensity
 				)
-				enemy_body.position = original_position + offset
-				if flash_overlay:
-					flash_overlay.position = enemy_body.position
+				if enemy_sprite:
+					enemy_sprite.position = original_sprite_position + offset
 
 func take_hit(damage: int = 1):
 	health -= damage
@@ -97,12 +103,14 @@ func take_hit(damage: int = 1):
 	# Start flash effect (overlay so we don't rely on original_color)
 	is_flashing = true
 	flash_timer = flash_duration
-	if flash_overlay:
-		flash_overlay.visible = true
+	if enemy_sprite:
+		enemy_sprite.modulate = Color(10, 10, 10, 1)  # Bright white flash
 
 	# Start shake effect
 	is_shaking = true
 	shake_timer = shake_duration
+	if enemy_sprite:
+		original_sprite_position = enemy_sprite.position  # Store current sprite position for shake
 
 	if health <= 0:
 		print("Enemy_small defeated at position: ", global_position)
@@ -133,7 +141,6 @@ func _physics_process(delta):
 				# Reflect velocity off the surface with damping
 				velocity = velocity - 2 * velocity_dot_normal * collision_normal
 				velocity *= bounce_damping
-				print("Enemy_small bounced off surface with velocity: ", velocity)
 	
 	# Only use physics movement when flying
 	if is_flying:
@@ -165,8 +172,6 @@ func start_flying():
 	if has_node("HitBox"):
 		$HitBox.set_deferred("monitoring", false)
 		$HitBox.set_deferred("monitorable", false)
-	
-	print("Enemy_small started flying with velocity: ", velocity, " (player facing right: ", player_facing_right, ")")
 
 func _on_small_enemy_hit_box_area_entered(area):
 	if area.name == "PunchHitBox" and not is_flying:

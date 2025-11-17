@@ -43,28 +43,36 @@ var dash_area: Area2D
 var dash_rect: ColorRect
 var player_body: ColorRect
 var player_sprite: AnimatedSprite2D
+var player_camera: Camera2D
 var can_move_vertically = false
 var dash_has_hit = false  # Track if dash has already hit this attack
 
 func _ready():
-	# Create and add camera
-	var camera = Camera2D.new()
-	camera.enabled = true
-	
-	# Add smoothing for smoother camera movement
-	camera.position_smoothing_enabled = true
-	camera.position_smoothing_speed = 5.0
-	
-	# Set zoom level (adjust as needed)
-	camera.zoom = Vector2(1.2, 1.2)  # Slight zoom in
-	
-	# Set camera limits to prevent going outside level bounds
-	camera.limit_left = 0
-	camera.limit_right = 1920
-	camera.limit_top = 0
-	camera.limit_bottom = 1080
-	
-	add_child(camera)
+	# Get the existing camera from the scene
+	if has_node("Camera2D"):
+		player_camera = $Camera2D
+		print("Using existing camera from scene")
+	else:
+		# Create and add camera if it doesn't exist
+		var camera = Camera2D.new()
+		camera.enabled = true
+		
+		# Add smoothing for smoother camera movement
+		camera.position_smoothing_enabled = true
+		camera.position_smoothing_speed = 5.0
+		
+		# Set zoom level (adjust as needed)
+		camera.zoom = Vector2(1.2, 1.2)  # Slight zoom in
+		
+		# Set camera limits to prevent going outside level bounds
+		camera.limit_left = 0
+		camera.limit_right = 1920
+		camera.limit_top = 0
+		camera.limit_bottom = 1080
+		
+		add_child(camera)
+		player_camera = camera  # Store reference for zoom effects
+		print("Created new camera")
 
 	punch_area = $PunchHitBox
 	punch_rect = $PunchHitBox/PunchRect
@@ -415,6 +423,13 @@ func stop_punch():
 func start_heavy_punch():
 	print("Starting heavy punch!")
 	
+	# Zoom out camera for dramatic effect
+	if player_camera:
+		player_camera.zoom = Vector2(1, 1)  #  zoomed out
+		print("Camera zoom set to: ", player_camera.zoom)
+	else:
+		print("ERROR: player_camera is null!")
+	
 	# Lock facing direction
 	if abs(velocity.x) > 10:
 		facing_right = velocity.x > 0
@@ -434,6 +449,13 @@ func start_heavy_punch():
 	heavy_punch_area.monitorable = false
 
 func stop_heavy_punch():
+	# Zoom camera back to normal with smooth tween
+	if player_camera:
+		var tween = create_tween()
+		tween.set_ease(Tween.EASE_OUT)
+		tween.set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(player_camera, "zoom", Vector2(1.3, 1.3), 0.3)
+	
 	# Disable hitbox when heavy punch ends
 	heavy_punch_area.visible = false
 	heavy_punch_area.monitoring = false
@@ -453,16 +475,27 @@ func handle_heavy_punching_state(delta):
 		heavy_punch_area.monitoring = true
 		heavy_punch_area.monitorable = true
 		
-		# WORKAROUND: Manually check for overlaps (same as kick)
+		# Heavy punch hits ALL enemies on screen for 5 damage
 		if not heavy_punch_has_hit:
-			var overlapping = heavy_punch_area.get_overlapping_areas()
-			for area in overlapping:
-				if area.name == "HitBox":
-					var enemy = area.get_parent()
-					if enemy and enemy.has_method("take_hit"):
-						enemy.take_hit(3)  # Heavy punches do 3 damage
-						heavy_punch_has_hit = true  # Mark that we've hit
-						break
+			# Get all enemies in the scene
+			var enemies = get_tree().get_nodes_in_group("enemies")
+			if enemies.size() == 0:
+				# Fallback: search for enemies by name pattern
+				var parent = get_parent()
+				if parent:
+					for node in parent.get_children():
+						if node.has_method("take_hit") and node != self:
+							enemies.append(node)
+			
+			# Damage all enemies
+			for enemy in enemies:
+				if enemy and enemy.has_method("take_hit"):
+					enemy.take_hit(5)  # Heavy punch does 5 damage to ALL enemies
+			
+			if enemies.size() > 0:
+				print("Heavy punch hit ", enemies.size(), " enemies for 5 damage each!")
+			
+			heavy_punch_has_hit = true  # Only trigger once per heavy punch
 	else:
 		# Hitbox inactive
 		heavy_punch_area.visible = false
