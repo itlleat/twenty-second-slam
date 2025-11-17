@@ -278,7 +278,19 @@ func update_visual_effects(delta):
 # Signal handlers
 func _on_hit_box_area_entered(area):
 	print(name, " detected area: ", area.name, " from parent: ", area.get_parent().name if area.get_parent() else "no parent")
-	if area.name in ["PunchHitBox", "KickHitBox"] and current_state not in [EnemyState.FLYING, EnemyState.DEAD]:
-		var attack_type = "punch" if area.name == "PunchHitBox" else "kick"
-		print(name, " hit by ", attack_type, "!")
-		take_hit()
+	if area.name in ["PunchHitBox", "HeavyPunchHitBox", "KickHitBox"] and current_state not in [EnemyState.FLYING, EnemyState.DEAD]:
+		var damage = 1
+		var attack_type = "punch"
+		
+		if area.name == "PunchHitBox":
+			damage = 1
+			attack_type = "punch"
+		elif area.name == "HeavyPunchHitBox":
+			damage = 3
+			attack_type = "heavy punch"
+		elif area.name == "KickHitBox":
+			damage = 2
+			attack_type = "kick"
+		
+		print(name, " hit by ", attack_type, " for ", damage, " damage!")
+		take_hit(damage)
