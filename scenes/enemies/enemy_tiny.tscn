@@ -1,22 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnlu4oquga1he"]
+[gd_scene load_steps=6 format=3 uid="uid://cnlu4oquga1he"]
 
 [ext_resource type="Script" path="res://scripts/entities/enemy_tiny.gd" id="1_r1fr3"]
+[ext_resource type="Texture2D" uid="uid://bi07ehgky8ye4" path="res://assets/sprites/duck.png" id="2_vpr3h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hr8gj"]
-size = Vector2(25, 49.5)
+size = Vector2(14, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2kgio"]
-size = Vector2(26.5, 50.5)
+size = Vector2(14, 10)
 
-[node name="EnemyTiny" type="CharacterBody2D"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_cvxvf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vpr3h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="EnemyTiny" type="CharacterBody2D" groups=["enemies"]]
 position = Vector2(58, -58)
 script = ExtResource("1_r1fr3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, -0.25)
+position = Vector2(2, -16)
 shape = SubResource("RectangleShape2D_hr8gj")
 
 [node name="EnemyBody" type="ColorRect" parent="."]
+visible = false
 offset_left = -13.0
 offset_top = -25.0
 offset_right = 13.0
@@ -24,6 +37,7 @@ offset_bottom = 25.0
 color = Color(0.658824, 0, 0.658824, 1)
 
 [node name="FlashOverlay" type="ColorRect" parent="."]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -37,5 +51,8 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(0.25, 0)
+position = Vector2(2, -16)
 shape = SubResource("RectangleShape2D_2kgio")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cvxvf")

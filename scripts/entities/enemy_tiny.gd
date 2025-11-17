@@ -133,7 +133,6 @@ func _physics_process(delta):
 				# Reflect velocity off the surface with damping
 				velocity = velocity - 2 * velocity_dot_normal * collision_normal
 				velocity *= bounce_damping
-				print("Enemy_tiny bounced off surface with velocity: ", velocity)
 	
 	# Only use physics movement when flying
 	if is_flying:
@@ -165,8 +164,6 @@ func start_flying():
 	if has_node("HitBox"):
 		$HitBox.set_deferred("monitoring", false)
 		$HitBox.set_deferred("monitorable", false)
-	
-	print("Enemy_tiny started flying with velocity: ", velocity, " (player facing right: ", player_facing_right, ")")
 
 func _on_small_enemy_hit_box_area_entered(area):
 	if area.name == "PunchHitBox" and not is_flying:

@@ -45,7 +45,7 @@ var original_position: Vector2
 
 # Node references - setup in child classes
 @onready var enemy_body: Node2D
-@onready var flash_overlay: ColorRect
+@onready var enemy_sprite: AnimatedSprite2D
 @onready var hit_box: Area2D
 
 # State timers and data
@@ -239,8 +239,8 @@ func take_hit(damage: int = 1):
 func start_visual_feedback():
 	is_flashing = true
 	flash_timer = flash_duration
-	if flash_overlay:
-		flash_overlay.visible = true
+	if enemy_sprite:
+		enemy_sprite.modulate = Color(1, 1, 1, 1)  # White flash
 	
 	is_shaking = true
 	shake_timer = shake_duration
@@ -253,8 +253,8 @@ func update_visual_effects(delta):
 		flash_timer -= delta
 		if flash_timer <= 0:
 			is_flashing = false
-			if flash_overlay:
-				flash_overlay.visible = false
+			if enemy_sprite:
+				enemy_sprite.modulate = Color(1, 1, 1, 1)  # Reset to normal
 	
 	# Handle shaking
 	if is_shaking:
@@ -263,8 +263,6 @@ func update_visual_effects(delta):
 			is_shaking = false
 			if enemy_body:
 				enemy_body.position = original_position
-				if flash_overlay:
-					flash_overlay.position = enemy_body.position
 		else:
 			if enemy_body:
 				var offset = Vector2(
@@ -272,8 +270,6 @@ func update_visual_effects(delta):
 					randf_range(-1, 1) * shake_intensity
 				)
 				enemy_body.position = original_position + offset
-				if flash_overlay:
-					flash_overlay.position = enemy_body.position
 
 # Signal handlers
 func _on_hit_box_area_entered(area):
