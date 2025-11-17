@@ -6,6 +6,7 @@ enum PlayerState {
 	WALK_UP,
 	WALK_DOWN,
 	PUNCHING,
+	HEAVY_PUNCHING,
 	KICKING,
 	DASHING
 }
@@ -17,23 +18,33 @@ var dash_duration = 0.4
 var punch_duration = 0.2  # Duration of punch animation/action
 var punch_hitbox_start = 0.03  # When hitbox becomes active
 var punch_hitbox_end = 0.18  # When hitbox deactivates
+var heavy_punch_duration = 0.3  # Heavy punch is much slower
+var heavy_punch_hitbox_start = 0.15  # Delayed startup
+var heavy_punch_hitbox_end = 0.3  # Longer active window
 var kick_duration = 0.3  # Kicks are slightly slower than punches
 var kick_hitbox_start = 0.08  # When kick hitbox becomes active
 var kick_hitbox_end = 0.25  # When kick hitbox deactivates
 var gravity = 980.0
 var punch_timer = 0.0
+var heavy_punch_timer = 0.0
 var kick_timer = 0.0
 var kick_has_hit = false  # Track if kick has already hit this attack
+var heavy_punch_has_hit = false  # Track if heavy punch has already hit this attack
 var dash_timer = 0.0
 var facing_right = true
 
 var punch_area: Area2D
 var punch_rect: ColorRect
+var heavy_punch_area: Area2D
+var heavy_punch_rect: ColorRect
 var kick_area: Area2D
 var kick_rect: ColorRect
+var dash_area: Area2D
+var dash_rect: ColorRect
 var player_body: ColorRect
 var player_sprite: AnimatedSprite2D
 var can_move_vertically = false
+var dash_has_hit = false  # Track if dash has already hit this attack
 
 func _ready():
 	# Create and add camera
@@ -57,11 +68,23 @@ func _ready():
 
 	punch_area = $PunchHitBox
 	punch_rect = $PunchHitBox/PunchRect
+	punch_area.area_entered.connect(_on_punch_hit_box_area_entered)
+	
+	# Get heavy punch hitbox
+	if has_node("HeavyPunchHitBox"):
+		heavy_punch_area = $HeavyPunchHitBox
+		heavy_punch_rect = $HeavyPunchHitBox/HeavyPunchRect
+		heavy_punch_area.area_entered.connect(_on_heavy_punch_hit_box_area_entered)
 	
 	# Get kick hitbox if it exists, otherwise create it later
 	if has_node("KickHitBox"):
 		kick_area = $KickHitBox
 		kick_rect = $KickHitBox/KickRect
+	
+	# Get dash hitbox
+	if has_node("DashHitBox"):
+		dash_area = $DashHitBox
+		dash_rect = $DashHitBox/DashRect
 	
 	player_body = $PlayerBody
 	player_sprite = $PlayerSprite
@@ -79,11 +102,23 @@ func _ready():
 	punch_area.monitoring = false
 	punch_area.monitorable = false
 	
+	# Start with heavy punch hitbox disabled
+	if heavy_punch_area:
+		heavy_punch_area.visible = false
+		heavy_punch_area.monitoring = false
+		heavy_punch_area.monitorable = false
+	
 	# Start with kick hitbox disabled
 	if kick_area:
 		kick_area.visible = false
 		kick_area.monitoring = false
 		kick_area.monitorable = false
+	
+	# Start with dash hitbox disabled
+	if dash_area:
+		dash_area.visible = false
+		dash_area.monitoring = false
+		dash_area.monitorable = false
 	
 	# Always ensure punch hitbox starts hidden
 	punch_area.visible = false
@@ -101,12 +136,17 @@ func _ready():
 func _physics_process(delta):
 	# Handle punch input - can cancel dash
 	if Input.is_action_just_pressed("punch"):
-		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING]:
+		if current_state not in [PlayerState.PUNCHING, PlayerState.HEAVY_PUNCHING, PlayerState.KICKING]:
 			start_punch()
+	
+	# Handle heavy punch input - can cancel dash
+	if Input.is_action_just_pressed("heavy_punch"):
+		if current_state not in [PlayerState.PUNCHING, PlayerState.HEAVY_PUNCHING, PlayerState.KICKING]:
+			start_heavy_punch()
 	
 	# Handle kick input - can cancel dash
 	if Input.is_action_just_pressed("kick"):
-		if current_state not in [PlayerState.PUNCHING, PlayerState.KICKING]:
+		if current_state not in [PlayerState.PUNCHING, PlayerState.HEAVY_PUNCHING, PlayerState.KICKING]:
 			start_kick()
 	
 	# Handle dash input - only works in movement areas and not while attacking
@@ -125,6 +165,8 @@ func _physics_process(delta):
 			handle_walk_down_state(delta)
 		PlayerState.PUNCHING:
 			handle_punching_state(delta)
+		PlayerState.HEAVY_PUNCHING:
+			handle_heavy_punching_state(delta)
 		PlayerState.KICKING:
 			handle_kicking_state(delta)
 		PlayerState.DASHING:
@@ -223,8 +265,23 @@ func handle_kicking_state(delta):
 
 func handle_dashing_state(delta):
 	dash_timer -= delta
+	
+	# Check for dash attack hits
+	if dash_area and not dash_has_hit:
+		var overlapping = dash_area.get_overlapping_areas()
+		for area in overlapping:
+			if area.name == "HitBox":
+				var enemy = area.get_parent()
+				if enemy and enemy.has_method("take_hit"):
+					enemy.take_hit(1)  # Dash does 1 damage
+					dash_has_hit = true  # Mark that we've hit
+					break
+	
 	if dash_timer <= 0:
-		# End dash
+		# End dash and disable hitbox
+		if dash_area:
+			dash_area.monitoring = false
+			dash_area.monitorable = false
 		current_state = PlayerState.IDLE
 		# Slow down after dash
 		velocity.x *= 0.5
@@ -281,6 +338,13 @@ func start_dash():
 	print("Starting dash!")
 	current_state = PlayerState.DASHING
 	dash_timer = dash_duration
+	dash_has_hit = false  # Reset hit flag for new dash
+	
+	# Enable dash hitbox during dash
+	if dash_area:
+		dash_area.monitoring = true
+		dash_area.monitorable = true
+		dash_area.visible = false  # Keep invisible but active
 	
 	# Get current input for dash direction using the same method as movement
 	var input_vector = Vector2.ZERO
@@ -310,6 +374,10 @@ func start_dash():
 	# Dash in any direction based on input
 	if input_vector.length() > 0:
 		dash_direction = input_vector.normalized()
+		# Lock facing direction based on dash direction
+		if abs(dash_direction.x) > 0.1:  # Only update facing if there's horizontal movement
+			facing_right = dash_direction.x > 0
+			player_sprite.flip_h = not facing_right
 	else:
 		# No input - dash in facing direction
 		dash_direction = Vector2(1 if facing_right else -1, 0)
@@ -343,6 +411,68 @@ func stop_punch():
 	punch_area.visible = false
 	punch_area.monitoring = false
 	punch_area.monitorable = false
+
+func start_heavy_punch():
+	print("Starting heavy punch!")
+	
+	# Lock facing direction
+	if abs(velocity.x) > 10:
+		facing_right = velocity.x > 0
+		player_sprite.flip_h = not facing_right
+	
+	current_state = PlayerState.HEAVY_PUNCHING
+	heavy_punch_timer = heavy_punch_duration
+	heavy_punch_has_hit = false  # Reset hit flag for new heavy punch
+	
+	# Position heavy punch hitbox
+	var horizontal_offset := 50.0  # Slightly longer range
+	heavy_punch_area.position = Vector2(horizontal_offset if facing_right else -horizontal_offset, -40)
+	
+	# Hitbox starts disabled
+	heavy_punch_area.visible = false
+	heavy_punch_area.monitoring = false
+	heavy_punch_area.monitorable = false
+
+func stop_heavy_punch():
+	# Disable hitbox when heavy punch ends
+	heavy_punch_area.visible = false
+	heavy_punch_area.monitoring = false
+	heavy_punch_area.monitorable = false
+
+func handle_heavy_punching_state(delta):
+	heavy_punch_timer -= delta
+	
+	# Stop all movement while heavy punching
+	velocity = Vector2.ZERO
+	
+	# Manage hitbox visibility based on animation timing
+	var time_in_punch = heavy_punch_duration - heavy_punch_timer
+	if time_in_punch >= heavy_punch_hitbox_start and time_in_punch <= heavy_punch_hitbox_end:
+		# Hitbox active during this window
+		heavy_punch_area.visible = true
+		heavy_punch_area.monitoring = true
+		heavy_punch_area.monitorable = true
+		
+		# WORKAROUND: Manually check for overlaps (same as kick)
+		if not heavy_punch_has_hit:
+			var overlapping = heavy_punch_area.get_overlapping_areas()
+			for area in overlapping:
+				if area.name == "HitBox":
+					var enemy = area.get_parent()
+					if enemy and enemy.has_method("take_hit"):
+						enemy.take_hit(3)  # Heavy punches do 3 damage
+						heavy_punch_has_hit = true  # Mark that we've hit
+						break
+	else:
+		# Hitbox inactive
+		heavy_punch_area.visible = false
+		heavy_punch_area.monitoring = false
+		heavy_punch_area.monitorable = false
+	
+	# End heavy punch when timer expires
+	if heavy_punch_timer <= 0:
+		stop_heavy_punch()
+		current_state = PlayerState.IDLE
 
 func start_kick():
 	print("Starting kick!")
@@ -378,8 +508,8 @@ func stop_kick():
 	player_sprite.flip_h = not facing_right
 
 func update_state():
-	# Don't change state if punching, kicking, or dashing (they manage their own state)
-	if current_state in [PlayerState.PUNCHING, PlayerState.KICKING, PlayerState.DASHING]:
+	# Don't change state if punching, heavy punching, kicking, or dashing (they manage their own state)
+	if current_state in [PlayerState.PUNCHING, PlayerState.HEAVY_PUNCHING, PlayerState.KICKING, PlayerState.DASHING]:
 		# Update ONLY the sprite for these states, don't recalculate state
 		update_sprite_for_committed_state()
 		return
@@ -428,6 +558,8 @@ func update_sprite_and_animation():
 			animation_name = "walk_down"
 		PlayerState.PUNCHING:
 			animation_name = "punching"
+		PlayerState.HEAVY_PUNCHING:
+			animation_name = "heavy_punch"
 		PlayerState.KICKING:
 			animation_name = "kicking"
 		PlayerState.DASHING:
@@ -446,6 +578,8 @@ func update_sprite_for_committed_state():
 	var expected_animation = ""
 	if current_state == PlayerState.PUNCHING:
 		expected_animation = "punching"
+	elif current_state == PlayerState.HEAVY_PUNCHING:
+		expected_animation = "heavy_punch"
 	elif current_state == PlayerState.KICKING:
 		expected_animation = "kicking"
 		# Don't update flip_h during kick - it was set in start_kick()
@@ -461,3 +595,11 @@ func update_sprite_for_committed_state():
 		# Force sprite to stay centered when switching animations
 		player_sprite.centered = true
 		player_sprite.offset = Vector2.ZERO
+
+func _on_punch_hit_box_area_entered(area):
+	print("Punch detected area: ", area.name)
+	# Enemy detection is handled by the enemy's HitBox area
+
+func _on_heavy_punch_hit_box_area_entered(area):
+	print("Heavy punch detected area: ", area.name)
+	# Enemy detection is handled by the enemy's HitBox area

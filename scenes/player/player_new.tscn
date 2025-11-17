@@ -7,7 +7,7 @@
 size = Vector2(40, 38)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tge7h"]
-size = Vector2(40, 40)
+size = Vector2(40, 39)
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(20, -20)
@@ -17,10 +17,8 @@ metadata/_edit_group_ = true
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-19, -21)
 sprite_frames = ExtResource("2_uruin")
-animation = &"kicking"
+animation = &"heavy_punch"
 autoplay = "idle"
-frame = 5
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_56n1y")
@@ -41,6 +39,23 @@ color = Color(1, 1, 0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchHitBox"]
 shape = SubResource("RectangleShape2D_tge7h")
 
+[node name="HeavyPunchHitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+metadata/_edit_group_ = true
+
+[node name="HeavyPunchRect" type="ColorRect" parent="HeavyPunchHitBox"]
+visible = false
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+color = Color(1, 0.5, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyPunchHitBox"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_tge7h")
+
 [node name="KickHitBox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 2
@@ -55,6 +70,24 @@ offset_bottom = 20.0
 color = Color(1, 1, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KickHitBox"]
+shape = SubResource("RectangleShape2D_tge7h")
+
+[node name="DashHitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+monitoring = false
+monitorable = false
+metadata/_edit_group_ = true
+
+[node name="DashRect" type="ColorRect" parent="DashHitBox"]
+visible = false
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0, 1, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DashHitBox"]
 shape = SubResource("RectangleShape2D_tge7h")
 
 [node name="Camera2D" type="Camera2D" parent="."]
