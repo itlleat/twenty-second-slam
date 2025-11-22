@@ -52,7 +52,7 @@ func _submit_score_to_leaderboard():
 
 func _on_play_again_button_pressed():
 	print("Starting new game...")
-	get_tree().change_scene_to_file("res://scenes/levels/test_level.tscn")
+	get_tree().change_scene_to_file("res://scenes/levels/office.tscn")
 
 func _on_leaderboard_button_pressed():
 	print("Opening leaderboards...")

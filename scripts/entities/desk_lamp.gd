@@ -50,23 +50,25 @@ func _ready():
 	if not is_projectile_mode:
 		# Add collision exceptions for player and larger enemies so they can pass through
 		var player = get_node_or_null("../Player")
+		if not player:
+			player = get_node_or_null("../PlayerNew")
 		if player:
 			add_collision_exception_with(player)
-			print("Added collision exception with player for enemy_small")
+			print("Added collision exception with player for desk_lamp")
 		
 		# Find and add exceptions for all larger enemies in the scene
 		var parent = get_parent()
 		if parent:
 			for child in parent.get_children():
-				if child != self and child.has_method("take_hit") and child.name.begins_with("Enemy") and not child.name.begins_with("EnemySmall"):
+				if child != self and child.has_method("take_hit") and child.name.begins_with("Enemy"):
 					add_collision_exception_with(child)
 					print("Added collision exception with larger enemy: ", child.name)
 		
-		# Connect the hit detection signal for small enemy
+		# Connect the hit detection signal
 		if has_node("HitBox"):
-			$HitBox.area_entered.connect(_on_small_enemy_hit_box_area_entered)
+			$HitBox.area_entered.connect(_on_desk_lamp_hit_box_area_entered)
 		else:
-			print("Warning: HitBox node not found for enemy_small")
+			print("Warning: HitBox node not found for desk_lamp")
 
 func set_projectile_mode(enabled: bool):
 	is_projectile_mode = enabled
@@ -75,13 +77,17 @@ func set_projectile_mode(enabled: bool):
 		is_flying = true
 		flying_timer = flying_duration
 		
-		# Add collision exception with boss so projectiles can pass through
+		# Add collision exception with boss and other enemies
 		var parent = get_parent()
 		if parent:
 			for child in parent.get_children():
-				if (child.name == "Enemy" or child.name.begins_with("Enemy")) and not child.name.begins_with("EnemySmall"):
+				if (child.name == "Enemy" or 
+					child.name.begins_with("Enemy") or
+					child.name.begins_with("Chair") or
+					child.name.begins_with("DeskLamp") or
+					child.is_in_group("enemies")) and child != self:
 					add_collision_exception_with(child)
-					print("Enemy_small projectile added collision exception with: ", child.name)
+					print("Desk_lamp added collision exception with: ", child.name)
 			
 			# Add collision exception with player
 			var player = get_node_or_null("../Player")
@@ -89,9 +95,9 @@ func set_projectile_mode(enabled: bool):
 				player = get_node_or_null("../PlayerNew")
 			if player:
 				add_collision_exception_with(player)
-				print("Enemy_small projectile added collision exception with player")
+				print("Desk_lamp added collision exception with player")
 		
-		print("Enemy_small set to projectile mode with velocity: ", velocity)
+		print("Desk_lamp set to projectile mode with velocity: ", velocity)
 
 func _process(delta):
 	if is_flying:
@@ -100,8 +106,8 @@ func _process(delta):
 			# Stop flying and despawn
 			is_flying = false
 			velocity = Vector2.ZERO
-			print("Enemy_small came to rest and despawning")
-			queue_free()  # Despawn the enemy_small
+			print("Desk_lamp came to rest and despawning")
+			queue_free()  # Despawn the desk_lamp
 	else:
 		# Normal behavior when not flying
 		if is_flashing:
@@ -128,9 +134,9 @@ func _process(delta):
 
 func take_hit(damage: int = 1):
 	health -= damage
-	print("Enemy_small took hit! Health now: ", health)
+	print("Desk_lamp took hit! Health now: ", health)
 
-	# Start flash effect (overlay so we don't rely on original_color)
+	# Start flash effect
 	is_flashing = true
 	flash_timer = flash_duration
 	if enemy_sprite:
@@ -143,7 +149,7 @@ func take_hit(damage: int = 1):
 		original_sprite_position = enemy_sprite.position  # Store current sprite position for shake
 
 	if health <= 0:
-		print("Enemy_small defeated at position: ", global_position)
+		print("Desk_lamp defeated at position: ", global_position)
 		start_flying()  # Start flying instead of dying
 
 func _physics_process(delta):
@@ -168,7 +174,7 @@ func _physics_process(delta):
 			var collider = collision.get_collider()
 			
 			# Skip bouncing off the player and larger enemies
-			if collider and (collider.name == "Player" or (collider.name.begins_with("Enemy") and not collider.name.begins_with("EnemySmall"))):
+			if collider and (collider.name == "Player" or collider.name == "PlayerNew" or collider.name.begins_with("Enemy")):
 				continue
 				
 			# Calculate bounce based on collision normal
@@ -190,7 +196,9 @@ func start_flying():
 	flying_timer = flying_duration
 	
 	# Get player's facing direction
-	var player = get_node("../Player")  # Assuming player is at same level in scene tree
+	var player = get_node_or_null("../Player")
+	if not player:
+		player = get_node_or_null("../PlayerNew")
 	var player_facing_right = true  # Default fallback
 	
 	if player and player.has_method("get") and "facing_right" in player:
@@ -209,11 +217,11 @@ func start_flying():
 		$HitBox.set_deferred("monitoring", false)
 		$HitBox.set_deferred("monitorable", false)
 
-func _on_small_enemy_hit_box_area_entered(area):
+func _on_desk_lamp_hit_box_area_entered(area):
 	# Skip hit detection if in projectile mode
 	if is_projectile_mode:
 		return
 		
 	if area.name == "PunchHitBox" and not is_flying:
-		print("Small enemy hit by punch!")
+		print("Desk_lamp hit by punch!")
 		take_hit()

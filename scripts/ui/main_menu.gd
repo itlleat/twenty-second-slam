@@ -46,8 +46,8 @@ func _load_settings():
 
 func _on_start_button_pressed():
 	print("Starting game...")
-	# Change to the test level scene
-	get_tree().change_scene_to_file("res://scenes/levels/test_level.tscn")
+	# Change to the office level scene
+	get_tree().change_scene_to_file("res://scenes/levels/office.tscn")
 
 func _on_leaderboards_button_pressed():
 	print("Opening leaderboards...")

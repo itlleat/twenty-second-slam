@@ -64,7 +64,7 @@ func _on_resume_button_pressed():
 func _on_restart_button_pressed():
 	print("Restarting level...")
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/levels/test_level.tscn")
+	get_tree().change_scene_to_file("res://scenes/levels/office.tscn")
 
 func _on_settings_button_pressed():
 	print("Opening pause settings...")

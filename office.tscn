@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://2igbufultuna"]
+
+[ext_resource type="Script" path="res://scripts/entities/vertical_zone.gd" id="1_pf6qd"]
+[ext_resource type="PackedScene" uid="uid://baxeutytpeu4r" path="res://scenes/player/player_new.tscn" id="2_rxkfj"]
+[ext_resource type="PackedScene" uid="uid://c1ipunpbjutsu" path="res://scenes/enemies/enemy.tscn" id="3_jd2rf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xbrh"]
+size = Vector2(2323, 1283)
+
+[node name="Office" type="Node2D"]
+
+[node name="FreeMovementZone" type="Area2D" parent="."]
+position = Vector2(-296, -754)
+script = ExtResource("1_pf6qd")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeMovementZone"]
+position = Vector2(1459, 112)
+shape = SubResource("RectangleShape2D_0xbrh")
+
+[node name="ColorRect" type="ColorRect" parent="FreeMovementZone/CollisionShape2D"]
+offset_left = -1163.0
+offset_top = -641.0
+offset_right = 1163.0
+offset_bottom = 642.0
+color = Color(0.254902, 0.254902, 1, 0.588235)
+
+[node name="Player" parent="." instance=ExtResource("2_rxkfj")]
+position = Vector2(1163, -49)
+
+[node name="Enemy" parent="." instance=ExtResource("3_jd2rf")]
+position = Vector2(1163, -642)
