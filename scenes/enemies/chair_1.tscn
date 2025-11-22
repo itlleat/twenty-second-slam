@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmxhq8vt2n4jk"]
+
+[ext_resource type="Script" path="res://scripts/entities/chair_1.gd" id="1_chair"]
+[ext_resource type="Texture2D" uid="uid://c5qs3yvlggj4s" path="res://assets/sprites/chair_1.png" id="2_chair"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chair_collision"]
+size = Vector2(30, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chair_hitbox"]
+size = Vector2(35, 35)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_chair"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_chair")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Chair1" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_chair")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_chair_collision")
+
+[node name="EnemyBody" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.4, 0.25, 0.15, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="FlashOverlay" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_chair_hitbox")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_chair")

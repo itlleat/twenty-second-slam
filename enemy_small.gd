@@ -5,15 +5,13 @@ signal enemy_died(enemy_position)
 var health = 10
 var flash_duration = 0.1
 var shake_duration = 0.2
-var shake_intensity = 6.0
+var shake_intensity = 4.0
 var is_flashing = false
 var is_shaking = false
 var flash_timer = 0.0
 var shake_timer = 0.0
 var original_position = Vector2.ZERO
-var original_sprite_position = Vector2.ZERO
 @onready var enemy_body = $EnemyBody
-@onready var enemy_sprite: AnimatedSprite2D
 var flash_overlay: ColorRect
 
 # Physics for flying when defeated
@@ -25,73 +23,37 @@ var bounce_damping = 0.8
 var friction = 0.95
 var original_collision_mask: int
 var player_passthrough_enabled = true
-var is_projectile_mode = false  # When true, skip normal enemy behavior
-var is_ring_mode = false  # When true, position controlled by boss (no physics)
 
 func _ready():
 	enemy_body = $EnemyBody
-	if has_node("EnemySprite"):
-		enemy_sprite = $EnemySprite
-	elif has_node("AnimatedSprite2D"):
-		enemy_sprite = $AnimatedSprite2D
-	flash_overlay = $FlashOverlay if has_node("FlashOverlay") else null
+	flash_overlay = $FlashOverlay
 	original_position = enemy_body.position
-	if enemy_sprite:
-		original_sprite_position = enemy_sprite.position
 	
 	# Ensure flash overlay starts invisible
-	if flash_overlay:
-		flash_overlay.visible = false
+	flash_overlay.visible = false
 	
 	# Store original collision mask for later use
 	original_collision_mask = collision_mask
 	
-	# Only do normal enemy setup if not in projectile mode
-	if not is_projectile_mode:
-		# Add collision exceptions for player and larger enemies so they can pass through
-		var player = get_node_or_null("../Player")
-		if player:
-			add_collision_exception_with(player)
-			print("Added collision exception with player for enemy_small")
-		
-		# Find and add exceptions for all larger enemies in the scene
-		var parent = get_parent()
-		if parent:
-			for child in parent.get_children():
-				if child != self and child.has_method("take_hit") and child.name.begins_with("Enemy") and not child.name.begins_with("EnemySmall"):
-					add_collision_exception_with(child)
-					print("Added collision exception with larger enemy: ", child.name)
-		
-		# Connect the hit detection signal for small enemy
-		if has_node("HitBox"):
-			$HitBox.area_entered.connect(_on_small_enemy_hit_box_area_entered)
-		else:
-			print("Warning: HitBox node not found for enemy_small")
-
-func set_projectile_mode(enabled: bool):
-	is_projectile_mode = enabled
-	if enabled:
-		# Immediately start flying behavior
-		is_flying = true
-		flying_timer = flying_duration
-		
-		# Add collision exception with boss so projectiles can pass through
-		var parent = get_parent()
-		if parent:
-			for child in parent.get_children():
-				if (child.name == "Enemy" or child.name.begins_with("Enemy")) and not child.name.begins_with("EnemySmall"):
-					add_collision_exception_with(child)
-					print("Enemy_small projectile added collision exception with: ", child.name)
-			
-			# Add collision exception with player
-			var player = get_node_or_null("../Player")
-			if not player:
-				player = get_node_or_null("../PlayerNew")
-			if player:
-				add_collision_exception_with(player)
-				print("Enemy_small projectile added collision exception with player")
-		
-		print("Enemy_small set to projectile mode with velocity: ", velocity)
+	# Add collision exceptions for player and larger enemies so they can pass through
+	var player = get_node_or_null("../Player")
+	if player:
+		add_collision_exception_with(player)
+		print("Added collision exception with player for enemy_small")
+	
+	# Find and add exceptions for all larger enemies in the scene
+	var parent = get_parent()
+	if parent:
+		for child in parent.get_children():
+			if child != self and child.has_method("take_hit") and child.name.begins_with("Enemy") and not child.name.begins_with("EnemySmall"):
+				add_collision_exception_with(child)
+				print("Added collision exception with larger enemy: ", child.name)
+	
+	# Connect the hit detection signal for small enemy
+	if has_node("HitBox"):
+		$HitBox.area_entered.connect(_on_small_enemy_hit_box_area_entered)
+	else:
+		print("Warning: HitBox node not found for enemy_small")
 
 func _process(delta):
 	if is_flying:
@@ -108,57 +70,51 @@ func _process(delta):
 			flash_timer -= delta
 			if flash_timer <= 0:
 				is_flashing = false
-				if enemy_sprite:
-					enemy_sprite.modulate = Color(1, 1, 1, 1)  # Reset to normal
+				if flash_overlay:
+					flash_overlay.visible = false
 
 		if is_shaking:
 			shake_timer -= delta
 			if shake_timer <= 0:
 				is_shaking = false
-				if enemy_sprite:
-					enemy_sprite.position = original_sprite_position
+				enemy_body.position = original_position
+				if flash_overlay:
+					flash_overlay.position = enemy_body.position
 			else:
 				# Random shake offset
 				var offset = Vector2(
 					randf_range(-1, 1) * shake_intensity,
 					randf_range(-1, 1) * shake_intensity
 				)
-				if enemy_sprite:
-					enemy_sprite.position = original_sprite_position + offset
+				enemy_body.position = original_position + offset
+				if flash_overlay:
+					flash_overlay.position = enemy_body.position
 
-func take_hit(damage: int = 1):
-	health -= damage
+func take_hit():
+	health -= 1
 	print("Enemy_small took hit! Health now: ", health)
 
 	# Start flash effect (overlay so we don't rely on original_color)
 	is_flashing = true
 	flash_timer = flash_duration
-	if enemy_sprite:
-		enemy_sprite.modulate = Color(10, 10, 10, 1)  # Bright white flash
+	if flash_overlay:
+		flash_overlay.visible = true
 
 	# Start shake effect
 	is_shaking = true
 	shake_timer = shake_duration
-	if enemy_sprite:
-		original_sprite_position = enemy_sprite.position  # Store current sprite position for shake
 
 	if health <= 0:
 		print("Enemy_small defeated at position: ", global_position)
 		start_flying()  # Start flying instead of dying
 
 func _physics_process(delta):
-	# Skip all physics if in ring mode (position controlled by boss)
-	if is_ring_mode:
-		return
-	
 	# Only apply gravity when flying (after HP is depleted)
-	# BUT: Don't apply gravity if in projectile mode (constant velocity)
-	if is_flying and not is_projectile_mode:
+	if is_flying:
 		velocity.y += gravity * delta
 	
-	if is_flying and not is_projectile_mode:
+	if is_flying:
 		# Apply friction to horizontal movement when flying
-		# (Skip for projectiles - they maintain constant velocity)
 		velocity.x *= friction
 		
 		# Handle bouncing off any solid surface
@@ -177,6 +133,7 @@ func _physics_process(delta):
 				# Reflect velocity off the surface with damping
 				velocity = velocity - 2 * velocity_dot_normal * collision_normal
 				velocity *= bounce_damping
+				print("Enemy_small bounced off surface with velocity: ", velocity)
 	
 	# Only use physics movement when flying
 	if is_flying:
@@ -208,12 +165,10 @@ func start_flying():
 	if has_node("HitBox"):
 		$HitBox.set_deferred("monitoring", false)
 		$HitBox.set_deferred("monitorable", false)
+	
+	print("Enemy_small started flying with velocity: ", velocity, " (player facing right: ", player_facing_right, ")")
 
 func _on_small_enemy_hit_box_area_entered(area):
-	# Skip hit detection if in projectile mode
-	if is_projectile_mode:
-		return
-		
 	if area.name == "PunchHitBox" and not is_flying:
 		print("Small enemy hit by punch!")
 		take_hit()
