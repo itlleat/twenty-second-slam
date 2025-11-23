@@ -149,6 +149,7 @@ func take_hit(damage: int = 1):
 func _physics_process(delta):
 	# Skip all physics if in ring mode (position controlled by boss)
 	if is_ring_mode:
+		position += velocity * delta
 		return
 	
 	# Only apply gravity when flying (after HP is depleted)

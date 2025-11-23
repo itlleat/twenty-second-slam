@@ -2,11 +2,11 @@ extends CharacterBody2D
 
 
 var current_state = null
-var states = {
-    "spinning_ring": preload("res://scripts/entities/boss_states/spinning_ring_state.gd").new(),
-    "missile_pincer": preload("res://scripts/entities/boss_states/missile_pincer_state.gd").new(),
-    "chair_throw": preload("res://scripts/entities/boss_states/chair_throw_state.gd").new(),
-}
+var current_state_name = ""
+var attack_states = [
+	preload("res://scripts/entities/boss_states/missile_pincer_state.gd").new(),
+	preload("res://scripts/entities/boss_states/chair_throw_state.gd").new()
+]
 
 
 # boss properties
@@ -21,6 +21,13 @@ var shake_timer = 0.0
 var original_position = Vector2.ZERO
 @onready var enemy_body = $EnemyBody
 var flash_overlay: ColorRect
+var enemy_small_scene = preload("res://scenes/enemies/enemy_small.tscn")
+var enemy_tiny_scene = preload("res://scenes/enemies/enemy_tiny.tscn")
+
+# Chair throw attack dependencies
+var chair_1_scene = preload("res://scenes/enemies/chair_1.tscn")
+var chair_2_scene = preload("res://scenes/enemies/chair_2.tscn")
+var chair_throw_timer = 0.0
 
 # kite 
 var player_ref: CharacterBody2D
@@ -28,22 +35,31 @@ var kite_distance = 250.0 # Distance to maintain from player
 var move_speed = 150.0 # Boss movement speed
 var attack_windup_distance = 150.0
 
+# Missile pincer attack
+var missile_pincer_timer: float = 0.0
+# var missile_pincer_timer = 0.0  # Keep this if needed for timer tracking
+# var missile_pincer_cooldown = 4.0  # Moved to MissilePincerState
+# var missiles_per_side = 16  # Moved to MissilePincerState
+# var missile_speed = 350.0  # Moved to MissilePincerState
+# var missile_spawn_interval = 0.1  # Moved to MissilePincerState
+# var missile_homing_strength = 3.0  # Moved to MissilePincerState
+
+# Spinning ring attack
+# var spinning_ring_timer: float = 0.0
+# var spinning_ring_active: bool = false
 
 func _ready():
 	enemy_body = $EnemyBody
 	flash_overlay = $FlashOverlay
 	original_position = enemy_body.position
-	
 	# Ensure flash overlay starts invisible
 	flash_overlay.visible = false
-	
 	# Connect the hit detection signal
 	$HitBox.area_entered.connect(_on_hit_box_area_entered)
-	
-    # Find player reference
+	# Find player reference
 	call_deferred("_find_player")
+	# No need to start random attack loop
 
-    
 func _find_player():
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
@@ -53,23 +69,11 @@ func _find_player():
 		player_ref = get_node_or_null("../Player")
 
 
-# change attack states
-func change_state(new_state_name: String):
-	if current_state:
-		current_state.exit(self)
-	current_state_name = new_state_name
-	current_state = state_instances.get(new_state_name, null)
-	if current_state:
-		current_state.enter(self)
-	else:
-		print("WARNING: State ", new_state_name, " not found!")
-
-
 func _physics_process(_delta):
 	if player_ref:
-		# Modular state system
-		if current_state:
-			current_state.update(self, get_physics_process_delta_time())
+		# Update all attack states in parallel
+		for state in attack_states:
+			state.update(self, get_physics_process_delta_time())
 		move_and_slide()
 
 func handle_kiting_state():
