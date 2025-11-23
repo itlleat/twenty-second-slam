@@ -1,6 +1,6 @@
 [gd_scene load_steps=34 format=3 uid="uid://co61hu4oj4jmi"]
 
-[ext_resource type="Script" uid="uid://blga14oqe0rvr" path="res://global_audio_manager.gd" id="1_8tnox"]
+[ext_resource type="Script" uid="uid://kn27cllxtphf" path="res://scripts/managers/global_audio_manager.gd" id="1_8tnox"]
 [ext_resource type="AudioStream" uid="uid://dtvcvs2dy4ox3" path="res://assets/audio/music/gameplay/bass/bass_001.ogg" id="2_pwhcr"]
 [ext_resource type="AudioStream" uid="uid://bqm1sqik3bsiv" path="res://assets/audio/music/gameplay/bass/bass_002.ogg" id="3_cvwon"]
 [ext_resource type="AudioStream" uid="uid://dm1via6qrkw60" path="res://assets/audio/music/gameplay/bass/bass_003.ogg" id="4_02bbh"]
@@ -98,8 +98,6 @@ script = ExtResource("1_8tnox")
 
 [node name="GameplayMusicStream" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamSynchronized_kpeb2")
-bus = &"Music"
 
 [node name="PowerPunchStream" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamSynchronized_8li50")
-bus = &"SFX"

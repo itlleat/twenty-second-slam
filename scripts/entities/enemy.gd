@@ -1,4 +1,6 @@
 extends CharacterBody2D
+extends ChairThrowState
+extends MissilePincerState	
 
 signal enemy_died(enemy_position)
 
