@@ -13,7 +13,7 @@ enum PlayerState {
 
 var current_state = PlayerState.IDLE
 var move_speed = 600.0
-var dash_force = 1200.0
+var dash_force = 1800.0
 var dash_duration = 0.4
 var punch_duration = 0.2  # Duration of punch animation/action
 var punch_hitbox_start = 0.03  # When hitbox becomes active
@@ -454,7 +454,7 @@ func stop_heavy_punch():
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_OUT)
 		tween.set_trans(Tween.TRANS_QUAD)
-		tween.tween_property(player_camera, "zoom", Vector2(1.7, 1.7), 0.3)
+		tween.tween_property(player_camera, "zoom", Vector2(1.3, 1.3), 0.3)
 	
 	# Disable hitbox when heavy punch ends
 	heavy_punch_area.visible = false
