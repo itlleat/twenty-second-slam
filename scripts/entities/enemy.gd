@@ -2,18 +2,10 @@ extends CharacterBody2D
 
 signal enemy_died(enemy_position)
 
-# Boss states
-enum BossState {
-	IDLE,
-	KITING,
-	ATTACKING,
-	SPINNING_RING,
-	TENTACLE_ATTACK,
-	CHAIR_THROW,
-	MISSILE_PINCER
-}
-
-var current_state = BossState.KITING
+var current_state = null # Holds the current BossState Resource
+var state_instances = {}
+var state_names = ["Kiting", "Attacking", "SpinningRing", "TentacleAttack", "ChairThrow", "MissilePincer"]
+var current_state_name = "Kiting"
 var attack_timer = 0.0
 var attack_cooldown = 3.0  # Time between attacks
 
@@ -117,23 +109,21 @@ func _find_player():
 		# Fallback: search by name
 		player_ref = get_node_or_null("../Player")
 
+func change_state(new_state_name: String):
+	if current_state:
+		current_state.exit(self)
+	current_state_name = new_state_name
+	current_state = state_instances.get(new_state_name, null)
+	if current_state:
+		current_state.enter(self)
+	else:
+		print("WARNING: State ", new_state_name, " not found!")
+
 func _physics_process(_delta):
 	if player_ref:
-		# State machine
-		match current_state:
-			BossState.KITING:
-				handle_kiting_state()
-			BossState.ATTACKING:
-				handle_attacking_state()
-			BossState.SPINNING_RING:
-				handle_spinning_ring_state()
-			BossState.TENTACLE_ATTACK:
-				handle_tentacle_attack_state()
-			BossState.CHAIR_THROW:
-				handle_chair_throw_state()
-			BossState.MISSILE_PINCER:
-				handle_missile_pincer_state()
-		
+		# Modular state system
+		if current_state:
+			current_state.update(self, get_physics_process_delta_time())
 		move_and_slide()
 
 func handle_kiting_state():
@@ -150,15 +140,12 @@ func handle_attacking_state():
 
 func start_attack():
 	print("Boss starting ring attack!")
-	current_state = BossState.ATTACKING
 	attack_timer = 0.0
-	
 	# Perform ring projectile attack
 	spawn_ring_projectiles()
-	
 	# Return to kiting after a brief moment
 	await get_tree().create_timer(0.3).timeout
-	current_state = BossState.KITING
+	change_state("Kiting")
 
 func spawn_ring_projectiles():
 	# Fibonacci spiral pattern using golden angle
@@ -271,22 +258,7 @@ func _on_hit_box_area_entered(area):
 
 func start_spinning_ring():
 	print("Boss starting spinning ring attack!")
-	current_state = BossState.SPINNING_RING
-	
-	# Initialize inner ring arrays
-	inner_ring_projectiles = []
-	inner_ring_respawn_timers = []
-	for i in range(inner_ring_count):
-		inner_ring_projectiles.append(null)
-		inner_ring_respawn_timers.append(0.0)
-	
-	# Spawn initial outer ring of projectiles
-	for i in range(ring_projectile_count):
-		spawn_ring_projectile(i)
-	
-	# Spawn initial inner ring of projectiles
-	for i in range(inner_ring_count):
-		spawn_inner_ring_projectile(i)
+	change_state("SpinningRing")
 
 func handle_spinning_ring_state():
 	# Continue kiting while maintaining the ring
@@ -472,8 +444,7 @@ func spawn_tentacle(index: int):
 
 func start_tentacle_attack():
 	print("Boss starting tentacle attack!")
-	current_state = BossState.TENTACLE_ATTACK
-	
+	change_state("TentacleAttack")
 	# Spawn all tentacles
 	for i in range(tentacle_count):
 		spawn_tentacle(i)
