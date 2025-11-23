@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://dwd3r14gwllkm" path="res://scripts/entities/vertical_zone.gd" id="1_45276"]
 [ext_resource type="Script" uid="uid://cs8ktcck50ess" path="res://scenes/levels/office.gd" id="1_office"]
 [ext_resource type="PackedScene" uid="uid://baxeutytpeu4r" path="res://scenes/player/player_new.tscn" id="2_4xsq1"]
-[ext_resource type="PackedScene" uid="uid://c1ipunpbjutsu" path="res://scenes/enemies/enemy.tscn" id="3_3vfec"]
 [ext_resource type="PackedScene" uid="uid://c3d4e5f6g7h8i" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
 [ext_resource type="Script" uid="uid://dsncdri42aalc" path="res://scripts/managers/pause_manager.gd" id="6_7k6om"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/boss.tscn" id="6_ey3sf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xbrh"]
 size = Vector2(2323, 1283)
@@ -32,9 +32,6 @@ color = Color(0.254902, 0.254902, 1, 0.588235)
 [node name="Player" parent="." instance=ExtResource("2_4xsq1")]
 position = Vector2(1163, -49)
 
-[node name="Enemy" parent="." instance=ExtResource("3_3vfec")]
-position = Vector2(1163, -642)
-
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("5_pause")]
@@ -43,3 +40,6 @@ grow_vertical = 2
 
 [node name="PauseManager" type="Node" parent="."]
 script = ExtResource("6_7k6om")
+
+[node name="Boss" parent="." instance=ExtResource("6_ey3sf")]
+position = Vector2(1172, -613)
