@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cmxhq8vt2n4jk"]
 
-[ext_resource type="Script" path="res://scripts/entities/chair_1.gd" id="1_chair"]
-[ext_resource type="Texture2D" uid="uid://c5qs3yvlggj4s" path="res://assets/sprites/chair_1.png" id="2_chair"]
+[ext_resource type="Script" uid="uid://b2d2woa5hkg88" path="res://scripts/entities/chair_1.gd" id="1_chair"]
+[ext_resource type="Texture2D" uid="uid://dyql0lo1inrsj" path="res://assets/sprites/chair_1.png" id="2_chair"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chair_collision"]
 size = Vector2(30, 30)
@@ -21,6 +21,7 @@ animations = [{
 }]
 
 [node name="Chair1" type="CharacterBody2D" groups=["enemies"]]
+position = Vector2(83, -31)
 script = ExtResource("1_chair")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -65,4 +66,5 @@ collision_mask = 2
 shape = SubResource("RectangleShape2D_chair_hitbox")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(26, -12)
 sprite_frames = SubResource("SpriteFrames_chair")

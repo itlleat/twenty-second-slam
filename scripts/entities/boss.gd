@@ -37,16 +37,7 @@ var attack_windup_distance = 150.0
 
 # Missile pincer attack
 var missile_pincer_timer: float = 0.0
-# var missile_pincer_timer = 0.0  # Keep this if needed for timer tracking
-# var missile_pincer_cooldown = 4.0  # Moved to MissilePincerState
-# var missiles_per_side = 16  # Moved to MissilePincerState
-# var missile_speed = 350.0  # Moved to MissilePincerState
-# var missile_spawn_interval = 0.1  # Moved to MissilePincerState
-# var missile_homing_strength = 3.0  # Moved to MissilePincerState
 
-# Spinning ring attack
-# var spinning_ring_timer: float = 0.0
-# var spinning_ring_active: bool = false
 
 func _ready():
 	enemy_body = $EnemyBody
