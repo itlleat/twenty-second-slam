@@ -1,13 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://desk_lamp_uid"]
+[gd_scene load_steps=7 format=3 uid="uid://c2yhnn5sgorl2"]
 
-[ext_resource type="Script" path="res://scripts/entities/desk_lamp.gd" id="1_desklamp"]
-[ext_resource type="Texture2D" uid="uid://cfhmrwwsgrqyh" path="res://assets/sprites/desk_lamp.png" id="2_desklamp"]
+[ext_resource type="Script" uid="uid://c2f83t74v6g54" path="res://scripts/entities/desk_lamp.gd" id="1_desklamp"]
+[ext_resource type="Texture2D" uid="uid://c0o6okio0enb0" path="res://assets/sprites/desk_lamp.png" id="2_desklamp"]
+[ext_resource type="Texture2D" uid="uid://bk7hjfv5de2nf" path="res://assets/lighting/cone_light.jpg" id="3_dcy5r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_desklamp_collision"]
-size = Vector2(25, 49.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_desklamp_hitbox"]
-size = Vector2(58, 55)
+size = Vector2(44, 49.5)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_desklamp"]
 animations = [{
@@ -19,6 +17,9 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_desklamp_hitbox"]
+size = Vector2(44, 50)
 
 [node name="DeskLamp" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_desklamp")
@@ -62,10 +63,21 @@ position = Vector2(-52, -52)
 collision_layer = 2
 collision_mask = 2
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HitBox"]
+light_mask = 0
+visibility_layer = 2
+position = Vector2(52, 66)
+sprite_frames = SubResource("SpriteFrames_desklamp")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(52, 51.5)
+position = Vector2(52, 52)
 shape = SubResource("RectangleShape2D_desklamp_hitbox")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -22)
-sprite_frames = SubResource("SpriteFrames_desklamp")
+[node name="PointLight2D" type="PointLight2D" parent="HitBox"]
+light_mask = 0
+position = Vector2(86, 64)
+rotation = -1.0197678
+scale = Vector2(1.0611933, 1.3429564)
+energy = 0.74
+texture = ExtResource("3_dcy5r")
+texture_scale = 0.11
