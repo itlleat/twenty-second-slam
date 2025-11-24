@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bu14v4t2tn52i"]
+[gd_scene load_steps=10 format=3 uid="uid://bu14v4t2tn52i"]
 
 [ext_resource type="Script" uid="uid://dwd3r14gwllkm" path="res://scripts/entities/vertical_zone.gd" id="1_45276"]
 [ext_resource type="Script" uid="uid://cs8ktcck50ess" path="res://scenes/levels/office.gd" id="1_office"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://c3d4e5f6g7h8i" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
 [ext_resource type="Script" uid="uid://dsncdri42aalc" path="res://scripts/managers/pause_manager.gd" id="6_7k6om"]
 [ext_resource type="PackedScene" uid="uid://bi32t2twn5x7q" path="res://scenes/enemies/boss.tscn" id="6_ey3sf"]
+[ext_resource type="Texture2D" uid="uid://d6pi8gw78wdb" path="res://assets/lighting/light_mask_neutral.png" id="7_1gkrr"]
+[ext_resource type="PackedScene" uid="uid://c2yhnn5sgorl2" path="res://scenes/enemies/desk_lamp.tscn" id="8_4m8q4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xbrh"]
 size = Vector2(2323, 1283)
@@ -14,7 +16,7 @@ size = Vector2(2323, 1283)
 script = ExtResource("1_office")
 
 [node name="FreeMovementZone" type="Area2D" parent="."]
-position = Vector2(-291, -755)
+position = Vector2(-292, -755)
 script = ExtResource("1_45276")
 metadata/_edit_group_ = true
 
@@ -27,9 +29,10 @@ offset_left = -1163.0
 offset_top = -641.0
 offset_right = 1163.0
 offset_bottom = 642.0
-color = Color(0.254902, 0.254902, 1, 0.588235)
+color = Color(0.37254903, 0, 0.81960785, 0.5882353)
 
 [node name="Player" parent="." instance=ExtResource("2_4xsq1")]
+visible = true
 position = Vector2(1163, -49)
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -43,3 +46,36 @@ script = ExtResource("6_7k6om")
 
 [node name="Boss" parent="." instance=ExtResource("6_ey3sf")]
 position = Vector2(1172, -613)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1183, -613)
+scale = Vector2(2.8046875, 2.8046875)
+color = Color(1, 0.9882353, 0.32941177, 0.99607843)
+texture = ExtResource("7_1gkrr")
+texture_scale = 1.79
+
+[node name="PointLight2D3" type="PointLight2D" parent="."]
+position = Vector2(1886, -613)
+scale = Vector2(2.8046875, 2.8046875)
+color = Color(1, 0.9882353, 0.32941177, 0.99607843)
+texture = ExtResource("7_1gkrr")
+texture_scale = 1.79
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+position = Vector2(475, -613)
+scale = Vector2(2.8046875, 2.8046875)
+color = Color(1, 0.9882353, 0.32941177, 0.99607843)
+texture = ExtResource("7_1gkrr")
+texture_scale = 1.79
+
+[node name="DeskLamp" parent="." instance=ExtResource("8_4m8q4")]
+position = Vector2(1535, -85)
+
+[node name="DeskLamp2" parent="." instance=ExtResource("8_4m8q4")]
+position = Vector2(1114, -101)
+
+[node name="DeskLamp3" parent="." instance=ExtResource("8_4m8q4")]
+position = Vector2(1352, -80)
+
+[node name="DeskLamp4" parent="." instance=ExtResource("8_4m8q4")]
+position = Vector2(824, -122)
