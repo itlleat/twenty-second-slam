@@ -463,10 +463,10 @@ func stop_heavy_punch():
 
 func handle_heavy_punching_state(delta):
 	heavy_punch_timer -= delta
-	
+
 	# Stop all movement while heavy punching
 	velocity = Vector2.ZERO
-	
+
 	# Manage hitbox visibility based on animation timing
 	var time_in_punch = heavy_punch_duration - heavy_punch_timer
 	if time_in_punch >= heavy_punch_hitbox_start and time_in_punch <= heavy_punch_hitbox_end:
@@ -474,9 +474,13 @@ func handle_heavy_punching_state(delta):
 		heavy_punch_area.visible = true
 		heavy_punch_area.monitoring = true
 		heavy_punch_area.monitorable = true
-		
+
 		# Heavy punch hits ALL enemies on screen for 5 damage
 		if not heavy_punch_has_hit:
+			# Play heavy punch SFX
+			var audio_manager = get_node_or_null("../GlobalAudioManager")
+			if audio_manager:
+				audio_manager.play_heavy_punch_sfx()
 			# Get all enemies in the scene
 			var enemies = get_tree().get_nodes_in_group("enemies")
 			if enemies.size() == 0:
@@ -486,22 +490,19 @@ func handle_heavy_punching_state(delta):
 					for node in parent.get_children():
 						if node.has_method("take_hit") and node != self:
 							enemies.append(node)
-			
 			# Damage all enemies
 			for enemy in enemies:
 				if enemy and enemy.has_method("take_hit"):
 					enemy.take_hit(5)  # Heavy punch does 5 damage to ALL enemies
-			
 			if enemies.size() > 0:
 				print("Heavy punch hit ", enemies.size(), " enemies for 5 damage each!")
-			
 			heavy_punch_has_hit = true  # Only trigger once per heavy punch
 	else:
 		# Hitbox inactive
 		heavy_punch_area.visible = false
 		heavy_punch_area.monitoring = false
 		heavy_punch_area.monitorable = false
-	
+
 	# End heavy punch when timer expires
 	if heavy_punch_timer <= 0:
 		stop_heavy_punch()
