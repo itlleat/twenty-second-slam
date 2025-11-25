@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bu14v4t2tn52i"]
+[gd_scene load_steps=11 format=3 uid="uid://bu14v4t2tn52i"]
 
 [ext_resource type="Script" uid="uid://dwd3r14gwllkm" path="res://scripts/entities/vertical_zone.gd" id="1_45276"]
 [ext_resource type="Script" uid="uid://cs8ktcck50ess" path="res://scenes/levels/office.gd" id="1_office"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bi32t2twn5x7q" path="res://scenes/enemies/boss.tscn" id="6_ey3sf"]
 [ext_resource type="Texture2D" uid="uid://d6pi8gw78wdb" path="res://assets/lighting/light_mask_neutral.png" id="7_1gkrr"]
 [ext_resource type="PackedScene" uid="uid://c2yhnn5sgorl2" path="res://scenes/enemies/desk_lamp.tscn" id="8_4m8q4"]
+[ext_resource type="PackedScene" uid="uid://co61hu4oj4jmi" path="res://scenes/audio/global_audio_manager.tscn" id="9_tuhfx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xbrh"]
 size = Vector2(2323, 1283)
@@ -32,7 +33,6 @@ offset_bottom = 642.0
 color = Color(0.37254903, 0, 0.81960785, 0.5882353)
 
 [node name="Player" parent="." instance=ExtResource("2_4xsq1")]
-visible = true
 position = Vector2(1163, -49)
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -79,3 +79,5 @@ position = Vector2(1352, -80)
 
 [node name="DeskLamp4" parent="." instance=ExtResource("8_4m8q4")]
 position = Vector2(824, -122)
+
+[node name="GlobalAudioManager" parent="." instance=ExtResource("9_tuhfx")]
