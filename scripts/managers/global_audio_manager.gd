@@ -16,5 +16,10 @@ func play_game_music():
 	if music_player:
 		music_player.play()
 
+func play_heavy_punch_sfx():
+	var punch_stream = get_node("PowerPunchStream")
+	if punch_stream:
+		punch_stream.play()
+
 
 
