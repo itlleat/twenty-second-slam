@@ -34,6 +34,27 @@ offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="NameEntry" type="LineEdit" parent="GameOverContainer"]
+	layout_mode = 2
+	placeholder_text = "Enter your name for leaderboard"
+	size_flags_horizontal = 3
+	custom_minimum_size = Vector2(0, 40)
+	visible = false
+
+[node name="SubmitButton" type="Button" parent="GameOverContainer"]
+	layout_mode = 2
+	custom_minimum_size = Vector2(0, 40)
+	text = "SUBMIT SCORE"
+	visible = false
+
+[node name="LeaderboardContainer" type="VBoxContainer" parent="GameOverContainer"]
+	layout_mode = 2
+	visible = false
+[node name="PlayerPointsLabel" type="Label" parent="GameOverContainer"]
+layout_mode = 2
+text = "Player Points: 0"
+horizontal_alignment = 1
+
 [node name="GameOverTitle" type="Label" parent="GameOverContainer"]
 layout_mode = 2
 text = "GAME OVER"
@@ -66,10 +87,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 50)
 text = "PLAY AGAIN"
 
-[node name="LeaderboardButton" type="Button" parent="GameOverContainer/ButtonContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 50)
-text = "LEADERBOARD"
 
 [node name="MainMenuButton" type="Button" parent="GameOverContainer/ButtonContainer"]
 layout_mode = 2
@@ -77,5 +94,4 @@ custom_minimum_size = Vector2(0, 50)
 text = "MAIN MENU"
 
 [connection signal="pressed" from="GameOverContainer/ButtonContainer/PlayAgainButton" to="." method="_on_play_again_button_pressed"]
-[connection signal="pressed" from="GameOverContainer/ButtonContainer/LeaderboardButton" to="." method="_on_leaderboard_button_pressed"]
 [connection signal="pressed" from="GameOverContainer/ButtonContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

@@ -42,15 +42,18 @@ func _display_leaderboard_result(result):
 	is_loading = false
 	loading_label.visible = false
 	refresh_button.disabled = false
-	
-	if result.has("error"):
-		_display_error("Failed to load leaderboard: " + result.error)
+
+	if result == null:
+		_display_error("No leaderboard data returned.")
 		return
-	
-	if result.has("scores") and result.scores is Array:
-		_display_scores(result.scores)
-	else:
-		_display_error("No leaderboard data available")
+	if typeof(result) == TYPE_DICTIONARY:
+		if result.has("error"):
+			_display_error("Failed to load leaderboard: " + str(result.error))
+			return
+		if result.has("scores") and typeof(result.scores) == TYPE_ARRAY:
+			_display_scores(result.scores)
+			return
+	_display_error("No leaderboard data available")
 
 func _display_scores(scores: Array):
 	if scores.is_empty():
@@ -84,15 +87,15 @@ func _create_score_item(rank: int, score_data) -> Control:
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	item_container.add_child(name_label)
 	
-	# Score
-	var score_label = Label.new()
+	# Player Points
+	var points_label = Label.new()
 	if score_data.has("score"):
-		score_label.text = str(score_data.score)
+		points_label.text = str(score_data.score) + " pts"
 	else:
-		score_label.text = "0"
-	score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	score_label.custom_minimum_size.x = 100
-	item_container.add_child(score_label)
+		points_label.text = "0 pts"
+	points_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	points_label.custom_minimum_size.x = 120
+	item_container.add_child(points_label)
 	
 	return item_container
 

@@ -123,7 +123,6 @@ func _process(delta):
 
 func take_hit(damage: int = 1):
 	health -= damage
-	print("Enemy took hit! Health now: ", health)
 	
 	# Report damage to GameManager (damage per hit)
 	GameManager.add_damage(damage)
@@ -139,7 +138,6 @@ func take_hit(damage: int = 1):
 	shake_timer = shake_duration
 
 	if health <= 0:
-		print("Enemy dying at position: ", global_position)
 		# Report bonus damage for killing enemy
 		GameManager.add_damage(5)  # 5 bonus damage for killing enemy
 		# emit_signal("enemy_died", global_position)  # Signal death with position - COMMENTED OUT
@@ -147,6 +145,4 @@ func take_hit(damage: int = 1):
 
 func _on_hit_box_area_entered(area):
 	if area.name == "PunchHitBox":
-		print("Enemy hit by punch!")
 		take_hit()
-

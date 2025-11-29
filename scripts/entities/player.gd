@@ -94,7 +94,7 @@ func _ready():
 		dash_area = $DashHitBox
 		dash_rect = $DashHitBox/DashRect
 	
-	player_body = $PlayerBody
+	player_body = get_node("PlayerBody")
 	player_sprite = $PlayerSprite
 	
 	# Force sprite to be centered and at consistent position
