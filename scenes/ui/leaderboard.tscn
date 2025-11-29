@@ -40,6 +40,12 @@ text = "LEADERBOARD"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PointsInfoLabel" type="Label" parent="LeaderboardContainer"]
+layout_mode = 2
+text = "Leaderboard ranks are based on Player Points (damage dealt)"
+horizontal_alignment = 1
+modulate = Color(0.8, 0.9, 1, 0.7)
+
 [node name="Spacer1" type="Control" parent="LeaderboardContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2

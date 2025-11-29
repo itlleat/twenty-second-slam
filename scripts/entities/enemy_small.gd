@@ -52,7 +52,6 @@ func _ready():
 		var player = get_node_or_null("../Player")
 		if player:
 			add_collision_exception_with(player)
-			print("Added collision exception with player for enemy_small")
 		
 		# Find and add exceptions for all larger enemies in the scene
 		var parent = get_parent()
@@ -60,13 +59,12 @@ func _ready():
 			for child in parent.get_children():
 				if child != self and child.has_method("take_hit") and child.name.begins_with("Enemy") and not child.name.begins_with("EnemySmall"):
 					add_collision_exception_with(child)
-					print("Added collision exception with larger enemy: ", child.name)
 		
 		# Connect the hit detection signal for small enemy
 		if has_node("HitBox"):
 			$HitBox.area_entered.connect(_on_small_enemy_hit_box_area_entered)
 		else:
-			print("Warning: HitBox node not found for enemy_small")
+			pass
 
 func set_projectile_mode(enabled: bool):
 	is_projectile_mode = enabled
@@ -81,7 +79,6 @@ func set_projectile_mode(enabled: bool):
 			for child in parent.get_children():
 				if (child.name == "Enemy" or child.name.begins_with("Enemy")) and not child.name.begins_with("EnemySmall"):
 					add_collision_exception_with(child)
-					print("Enemy_small projectile added collision exception with: ", child.name)
 			
 			# Add collision exception with player
 			var player = get_node_or_null("../Player")
@@ -89,9 +86,7 @@ func set_projectile_mode(enabled: bool):
 				player = get_node_or_null("../PlayerNew")
 			if player:
 				add_collision_exception_with(player)
-				print("Enemy_small projectile added collision exception with player")
 		
-		print("Enemy_small set to projectile mode with velocity: ", velocity)
 
 func _process(delta):
 	if is_flying:
@@ -100,7 +95,6 @@ func _process(delta):
 			# Stop flying and despawn
 			is_flying = false
 			velocity = Vector2.ZERO
-			print("Enemy_small came to rest and despawning")
 			queue_free()  # Despawn the enemy_small
 	else:
 		# Normal behavior when not flying
@@ -128,7 +122,6 @@ func _process(delta):
 
 func take_hit(damage: int = 1):
 	health -= damage
-	print("Enemy_small took hit! Health now: ", health)
 
 	# Start flash effect (overlay so we don't rely on original_color)
 	is_flashing = true
@@ -143,7 +136,6 @@ func take_hit(damage: int = 1):
 		original_sprite_position = enemy_sprite.position  # Store current sprite position for shake
 
 	if health <= 0:
-		print("Enemy_small defeated at position: ", global_position)
 		start_flying()  # Start flying instead of dying
 
 func _physics_process(delta):
@@ -216,5 +208,4 @@ func _on_small_enemy_hit_box_area_entered(area):
 		return
 		
 	if area.name == "PunchHitBox" and not is_flying:
-		print("Small enemy hit by punch!")
 		take_hit()

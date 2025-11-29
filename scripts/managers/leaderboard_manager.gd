@@ -60,7 +60,11 @@ func _encode_params(params: Dictionary) -> String:
 func get_leaderboard(limit: int = 20):
 	"""Retrieve leaderboard scores from Purple Token API"""
 	print("LeaderboardManager: Fetching leaderboard...")
-	
+	# Prevent multiple simultaneous requests
+	if http_request.get_http_client_status() == HTTPClient.STATUS_REQUESTING:
+		print("LeaderboardManager: Request already in progress, skipping new request.")
+		return
+
 	var params = {
 		"gamekey": GAME_KEY,
 		"format": "json",
@@ -69,12 +73,12 @@ func get_leaderboard(limit: int = 20):
 		"ids": "yes",
 		"limit": limit
 	}
-	
+
 	var encoded = _encode_params(params)
 	var signature = _create_signature(encoded)
-	
+
 	var url = GET_ENDPOINT + "?payload=" + encoded + "&sig=" + signature
-	
+
 	print("LeaderboardManager: Making GET request to Purple Token API")
 	var error = http_request.request(url)
 	if error != OK:
@@ -115,34 +119,38 @@ func submit_score(player_name: String, score: int):
 func _on_request_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray):
 	"""Handle HTTP request completion"""
 	print("LeaderboardManager: Request completed - Code: ", response_code, " Result: ", result)
-	
+	var raw_response = body.get_string_from_utf8()
+	print("LeaderboardManager: Raw response body: ", raw_response)
+
 	var json = JSON.new()
-	var parse_result = json.parse(body.get_string_from_utf8())
-	
+	var parse_result = json.parse(raw_response)
+
 	if parse_result != OK:
-		print("LeaderboardManager: Failed to parse JSON response")
-		emit_signal("scores_retrieved", [])
-		emit_signal("score_submitted", false, "Invalid server response")
+		print("LeaderboardManager: Failed to parse JSON response. Returning raw response.")
+		# If response is just a number, treat as status code or error
+		if raw_response.is_valid_integer():
+			var int_val = int(raw_response)
+			print("LeaderboardManager: Response is integer: ", int_val)
+			emit_signal("scores_retrieved", [])
+			emit_signal("score_submitted", false, "Server returned code: " + raw_response)
+		else:
+			emit_signal("scores_retrieved", [])
+			emit_signal("score_submitted", false, "Invalid server response: " + raw_response)
 		return
-	
+
 	var response_data = json.data
-	
+
 	if response_code == 200:
 		# Check if this was a GET request (retrieve scores) or POST request (submit score)
 		if typeof(response_data) == TYPE_ARRAY:
-			# This is a scores array from GET request
-			print("LeaderboardManager: Successfully retrieved ", response_data.size(), " scores")
 			emit_signal("scores_retrieved", response_data)
 		elif typeof(response_data) == TYPE_DICTIONARY and response_data.has("scores"):
-			# This is a dictionary with scores array from GET request
-			print("LeaderboardManager: Successfully retrieved ", response_data.scores.size(), " scores")
 			emit_signal("scores_retrieved", response_data.scores)
 		else:
-			# Assume this is a submit response
-			print("LeaderboardManager: Score submission successful")
 			emit_signal("score_submitted", true, "Score submitted successfully!")
 	else:
 		print("LeaderboardManager: Server error - Code: ", response_code)
+		print("LeaderboardManager: Response data: ", response_data)
 		var error_message = "Server error (Code: " + str(response_code) + ")"
 		if response_data is Dictionary and response_data.has("error"):
 			error_message = response_data.error

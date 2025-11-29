@@ -58,9 +58,11 @@ func _ready():
 	# Connect the hit detection signal for all modes
 	if has_node("HitBox"):
 		$HitBox.area_entered.connect(_on_small_enemy_hit_box_area_entered)
+		$HitBox.monitoring = true
 		$HitBox.body_entered.connect(_on_small_enemy_hit_box_body_entered)
 	else:
-		print("Warning: HitBox node not found for enemy_tiny")
+		pass
+		pass
 	
 	# Only do normal enemy setup if not in projectile or missile mode
 	if not is_projectile_mode and not is_missile_mode:
@@ -68,7 +70,6 @@ func _ready():
 		var player = get_node_or_null("../Player")
 		if player:
 			add_collision_exception_with(player)
-			print("Added collision exception with player for enemy_tiny")
 		
 		# Find and add exceptions for all larger enemies in the scene
 		var parent = get_parent()
@@ -76,13 +77,10 @@ func _ready():
 			for child in parent.get_children():
 				if child != self and child.has_method("take_hit") and child.name.begins_with("Enemy") and not child.name.begins_with("EnemyTiny"):
 					add_collision_exception_with(child)
-					print("Added collision exception with larger enemy: ", child.name)
 		
 		# Connect the hit detection signal for tiny enemy
 		if has_node("HitBox"):
 			$HitBox.area_entered.connect(_on_small_enemy_hit_box_area_entered)
-		else:
-			print("Warning: HitBox node not found for enemy_tiny")
 
 func set_projectile_mode(enabled: bool):
 	is_projectile_mode = enabled
@@ -97,7 +95,6 @@ func set_projectile_mode(enabled: bool):
 			for child in parent.get_children():
 				if (child.name == "Enemy" or child.name.begins_with("Enemy")) and not child.name.begins_with("EnemyTiny"):
 					add_collision_exception_with(child)
-					print("Enemy_tiny projectile added collision exception with: ", child.name)
 			
 			# Add collision exception with player
 			var player = get_node_or_null("../Player")
@@ -105,9 +102,7 @@ func set_projectile_mode(enabled: bool):
 				player = get_node_or_null("../PlayerNew")
 			if player:
 				add_collision_exception_with(player)
-				print("Enemy_tiny projectile added collision exception with player")
 		
-		print("Enemy_tiny set to projectile mode with velocity: ", velocity)
 
 func _process(delta):
 	if is_flying:
@@ -116,7 +111,6 @@ func _process(delta):
 			# Stop flying and despawn
 			is_flying = false
 			velocity = Vector2.ZERO
-			print("Enemy_tiny came to rest and despawning")
 			queue_free()  # Despawn the enemy_tiny
 	else:
 		# Normal behavior when not flying
@@ -144,7 +138,6 @@ func _process(delta):
 
 func take_hit(damage: int = 1):
 	health -= damage
-	print("Enemy_tiny took hit! Health now: ", health)
 
 	# Start flash effect (overlay so we don't rely on original_color)
 	is_flashing = true
@@ -159,7 +152,6 @@ func take_hit(damage: int = 1):
 		original_sprite_position = enemy_sprite.position  # Store current sprite position for shake
 
 	if health <= 0:
-		print("Enemy_tiny defeated at position: ", global_position)
 		start_flying()  # Start flying instead of dying
 
 func _physics_process(delta):
@@ -173,7 +165,6 @@ func _physics_process(delta):
 		var overlapping_bodies = hit_box.get_overlapping_bodies()
 		for body in overlapping_bodies:
 			if body and (body.name == "Player" or body.name == "PlayerNew"):
-				print("Missile overlapping player, despawning")
 				queue_free()
 				return
 		
@@ -192,7 +183,6 @@ func _physics_process(delta):
 				
 				# If extremely close, just despawn
 				if distance_to_player < 10.0:
-					print("Missile absorbed into player")
 					queue_free()
 					return
 	
@@ -283,7 +273,6 @@ func _on_small_enemy_hit_box_area_entered(area):
 	# If missile hits player, despawn immediately
 	if is_missile_mode:
 		if area.get_parent() and (area.get_parent().name == "Player" or area.get_parent().name == "PlayerNew"):
-			print("Missile hit player (area), despawning")
 			queue_free()
 		return
 	
@@ -292,14 +281,12 @@ func _on_small_enemy_hit_box_area_entered(area):
 		return
 		
 	if area.name == "PunchHitBox" and not is_flying:
-		print("Tiny enemy hit by punch!")
 		take_hit()
 
 func _on_small_enemy_hit_box_body_entered(body):
 	# If missile hits player body, despawn immediately
 	if is_missile_mode:
 		if body and (body.name == "Player" or body.name == "PlayerNew"):
-			print("Missile hit player (body), despawning")
 			queue_free()
 		return
 
@@ -317,7 +304,6 @@ func setup_missile_collisions():
 					child.name == "PlayerNew" or
 					child.is_in_group("enemies")):
 					add_collision_exception_with(child)
-					print("Enemy_tiny missile added collision exception with: ", child.name)
 
 func set_missile_mode(enabled: bool):
 	is_missile_mode = enabled
@@ -329,4 +315,3 @@ func set_missile_mode(enabled: bool):
 		# Set up collision exceptions
 		setup_missile_collisions()
 		
-		print("Enemy_tiny set to missile mode with velocity: ", velocity)

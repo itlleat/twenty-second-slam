@@ -21,7 +21,7 @@ animations = [{
 }]
 
 [node name="Chair1" type="CharacterBody2D" groups=["enemies"]]
-position = Vector2(83, -31)
+position = Vector2(19, -50)
 script = ExtResource("1_chair")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
