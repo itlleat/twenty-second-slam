@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdaf8ifcesgp0"]
+
+[ext_resource type="Texture2D" uid="uid://cljfcfo6f780x" path="res://assets/sprites/background_objects/bg_skyscraper_light.png" id="1_kll37"]
+
+[node name="BgSkyScraperLight" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_kll37")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_left = 1199.0
+offset_top = -1.0
+offset_right = 2479.0
+offset_bottom = 719.0
+texture = ExtResource("1_kll37")
+flip_h = true
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+offset_left = -1183.0
+offset_top = -1.0
+offset_right = 97.0
+offset_bottom = 719.0
+texture = ExtResource("1_kll37")
+flip_h = true

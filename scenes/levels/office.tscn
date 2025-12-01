@@ -1,44 +1,139 @@
-[gd_scene load_steps=11 format=3 uid="uid://bu14v4t2tn52i"]
+[gd_scene load_steps=20 format=3 uid="uid://bu14v4t2tn52i"]
 
 [ext_resource type="Script" uid="uid://dwd3r14gwllkm" path="res://scripts/entities/vertical_zone.gd" id="1_45276"]
 [ext_resource type="Script" uid="uid://cs8ktcck50ess" path="res://scenes/levels/office.gd" id="1_office"]
 [ext_resource type="PackedScene" uid="uid://baxeutytpeu4r" path="res://scenes/player/player_new.tscn" id="2_4xsq1"]
+[ext_resource type="PackedScene" uid="uid://comy5q4wl5lfj" path="res://tower.tscn" id="3_3f6fi"]
+[ext_resource type="PackedScene" uid="uid://b2k1klgavi8le" path="res://bg_sky_scraper_dark.tscn" id="3_d01tv"]
+[ext_resource type="PackedScene" uid="uid://cdaf8ifcesgp0" path="res://bg_sky_scraper_light.tscn" id="3_jbvgb"]
+[ext_resource type="Texture2D" uid="uid://v7htal4p7h7n" path="res://assets/sprites/background_objects/bg_sky_scraper_light.png" id="3_lin3j"]
+[ext_resource type="PackedScene" uid="uid://bo0w30x2werc8" path="res://comms_tower.tscn" id="4_a576x"]
+[ext_resource type="Texture2D" uid="uid://bergqnjr0dgwj" path="res://assets/sprites/background_objects/bg_sky_scraper_dark.png" id="4_cn1nh"]
+[ext_resource type="Texture2D" uid="uid://bq46h2innnjsr" path="res://assets/sprites/background_objects/tower.png" id="5_cn1nh"]
 [ext_resource type="PackedScene" uid="uid://c3d4e5f6g7h8i" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
 [ext_resource type="Script" uid="uid://dsncdri42aalc" path="res://scripts/managers/pause_manager.gd" id="6_7k6om"]
 [ext_resource type="PackedScene" uid="uid://bi32t2twn5x7q" path="res://scenes/enemies/boss.tscn" id="6_ey3sf"]
 [ext_resource type="Texture2D" uid="uid://d6pi8gw78wdb" path="res://assets/lighting/light_mask_neutral.png" id="7_1gkrr"]
 [ext_resource type="PackedScene" uid="uid://c2yhnn5sgorl2" path="res://scenes/enemies/desk_lamp.tscn" id="8_4m8q4"]
 [ext_resource type="PackedScene" uid="uid://co61hu4oj4jmi" path="res://scenes/audio/global_audio_manager.tscn" id="9_tuhfx"]
+[ext_resource type="PackedScene" uid="uid://dhr55c068q5hp" path="res://sky.tscn" id="10_nrxk4"]
 
-[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_tuhfx"]
-points = PackedVector2Array(966, -193, 1165, 644, -1165, 644, -966, -193)
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tuhfx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nrxk4"]
+size = Vector2(2341, 130.00002)
 
 [node name="Office" type="Node2D"]
 script = ExtResource("1_office")
 
+[node name="Sky" parent="." instance=ExtResource("10_nrxk4")]
+position = Vector2(-1056, 147)
+
+[node name="BgParallax" type="Node2D" parent="."]
+
+[node name="Parallax2D2" type="Parallax2D" parent="BgParallax"]
+scroll_scale = Vector2(0.7, 0.7)
+scroll_offset = Vector2(484, -6)
+
+[node name="TextureRect" type="TextureRect" parent="BgParallax/Parallax2D2"]
+offset_left = -2282.0
+offset_top = -2.0
+offset_right = 2943.0
+offset_bottom = 718.0
+texture = ExtResource("3_lin3j")
+
+[node name="Parallax2D" type="Parallax2D" parent="BgParallax"]
+scroll_scale = Vector2(0.9, 0.9)
+
+[node name="TextureRect" type="TextureRect" parent="BgParallax/Parallax2D"]
+offset_left = -1389.0
+offset_top = 40.0
+offset_right = 3836.0
+offset_bottom = 760.0
+texture = ExtResource("4_cn1nh")
+
+[node name="Parallax2D3" type="Parallax2D" parent="BgParallax"]
+scroll_offset = Vector2(-21, 35)
+
+[node name="TextureRect" type="TextureRect" parent="BgParallax/Parallax2D3"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("5_cn1nh")
+
+[node name="BgSkyScraperLight" parent="." instance=ExtResource("3_jbvgb")]
+visible = false
+position = Vector2(147, -147)
+
+[node name="BgSkyScraperDark" parent="." instance=ExtResource("3_d01tv")]
+visible = false
+position = Vector2(-42, -77)
+
+[node name="CommsTower" parent="BgSkyScraperDark" instance=ExtResource("4_a576x")]
+visible = false
+position = Vector2(1, 0)
+
+[node name="Tower" parent="." instance=ExtResource("3_3f6fi")]
+visible = false
+position = Vector2(-394, -92)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -1228.0
+offset_top = 712.0
+offset_right = 2612.0
+offset_bottom = 1437.0
+color = Color(0.47397572, 0.47397572, 0.47397572, 1)
+
 [node name="FreeMovementZone" type="Area2D" parent="."]
-position = Vector2(-292, -755)
+position = Vector2(-326, 830)
 script = ExtResource("1_45276")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeMovementZone"]
-position = Vector2(1459, 112)
-shape = SubResource("ConvexPolygonShape2D_tuhfx")
-
-[node name="ColorRect" type="ColorRect" parent="FreeMovementZone/CollisionShape2D"]
-offset_left = -1163.0
-offset_top = -641.0
-offset_right = 1163.0
-offset_bottom = 642.0
+[node name="ColorRect" type="ColorRect" parent="FreeMovementZone"]
+visible = false
+offset_left = 292.0
+offset_top = -867.0
+offset_right = 1829.0
+offset_bottom = 196.0
 color = Color(0.37254903, 0, 0.81960785, 0.5882353)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="FreeMovementZone"]
+[node name="StaticBody2D2" type="StaticBody2D" parent="FreeMovementZone"]
+position = Vector2(292, 755)
+physics_material_override = SubResource("PhysicsMaterial_tuhfx")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FreeMovementZone/StaticBody2D"]
-position = Vector2(293, 755)
-polygon = PackedVector2Array(0, 0, 200, -835, 2132, -836, 2331, 1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeMovementZone/StaticBody2D2"]
+position = Vector2(1609, -1011)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_nrxk4")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="FreeMovementZone"]
+position = Vector2(1426, 3230)
+rotation = -1.5707964
+physics_material_override = SubResource("PhysicsMaterial_tuhfx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeMovementZone/StaticBody2D3"]
+position = Vector2(2960, -390.99985)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_nrxk4")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="FreeMovementZone"]
+physics_material_override = SubResource("PhysicsMaterial_tuhfx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeMovementZone/StaticBody2D"]
+position = Vector2(217.99997, -355)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_nrxk4")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="FreeMovementZone"]
+position = Vector2(1437, 1784)
+rotation = -1.5707964
+physics_material_override = SubResource("PhysicsMaterial_tuhfx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeMovementZone/StaticBody2D4"]
+position = Vector2(2710, -418.99988)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_nrxk4")
 
 [node name="Player" parent="." instance=ExtResource("2_4xsq1")]
-position = Vector2(1182, -106)
+position = Vector2(691, 956)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -50,39 +145,46 @@ grow_vertical = 2
 script = ExtResource("6_7k6om")
 
 [node name="Boss" parent="." instance=ExtResource("6_ey3sf")]
-position = Vector2(1172, -613)
+position = Vector2(693, 714)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(1184, -613)
+visible = false
+position = Vector2(2557, 410)
 scale = Vector2(2.8046875, 2.8046875)
 color = Color(1, 0.9882353, 0.32941177, 0.99607843)
 texture = ExtResource("7_1gkrr")
 texture_scale = 1.79
 
 [node name="PointLight2D3" type="PointLight2D" parent="."]
-position = Vector2(1886, -613)
+visible = false
+position = Vector2(2853, -691)
 scale = Vector2(2.8046875, 2.8046875)
 color = Color(1, 0.9882353, 0.32941177, 0.99607843)
 texture = ExtResource("7_1gkrr")
 texture_scale = 1.79
 
 [node name="PointLight2D2" type="PointLight2D" parent="."]
-position = Vector2(475, -613)
+visible = false
+position = Vector2(2385, -840)
 scale = Vector2(2.8046875, 2.8046875)
 color = Color(1, 0.9882353, 0.32941177, 0.99607843)
 texture = ExtResource("7_1gkrr")
 texture_scale = 1.79
 
 [node name="DeskLamp" parent="." instance=ExtResource("8_4m8q4")]
+visible = false
 position = Vector2(1535, -85)
 
 [node name="DeskLamp2" parent="." instance=ExtResource("8_4m8q4")]
+visible = false
 position = Vector2(1113, -102)
 
 [node name="DeskLamp3" parent="." instance=ExtResource("8_4m8q4")]
+visible = false
 position = Vector2(1352, -80)
 
 [node name="DeskLamp4" parent="." instance=ExtResource("8_4m8q4")]
+visible = false
 position = Vector2(824, -122)
 
 [node name="GlobalAudioManager" parent="." instance=ExtResource("9_tuhfx")]

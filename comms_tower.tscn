@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bo0w30x2werc8"]
+
+[ext_resource type="Texture2D" uid="uid://3t0uygyvqoct" path="res://assets/sprites/background_objects/bg_sky.png" id="1_ihg64"]
+[ext_resource type="Texture2D" uid="uid://drmln8svlw4vy" path="res://assets/sprites/background_objects/comms_tower.png" id="1_o3grd"]
+[ext_resource type="Texture2D" uid="uid://d6pi8gw78wdb" path="res://assets/lighting/light_mask_neutral.png" id="2_ihg64"]
+
+[node name="CommsTower" type="Node2D"]
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_ihg64")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_o3grd")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(185, 151)
+color = Color(0.99999994, 0.04050286, 0.022352692, 1)
+energy = 3.33
+shadow_enabled = true
+texture = ExtResource("2_ihg64")
+texture_scale = 0.13
