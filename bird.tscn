@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://rts2wchm1mb3"]
+
+[ext_resource type="Script" uid="uid://ccidmmxsttuwi" path="res://bird.gd" id="1_6ljjq"]
+[ext_resource type="Texture2D" uid="uid://cssf1dwo5bf2s" path="res://assets/sprites/background_objects/bird/bird_1.png" id="1_cchwj"]
+[ext_resource type="Texture2D" uid="uid://dgl01dgfgcakj" path="res://assets/sprites/background_objects/bird/bird_2.png" id="2_6ljjq"]
+[ext_resource type="Texture2D" uid="uid://38fvr5imj7it" path="res://assets/sprites/background_objects/bird/bird_3.png" id="3_axl6x"]
+[ext_resource type="Texture2D" uid="uid://bxw6ae2v3ntme" path="res://assets/sprites/background_objects/bird/bird_4.png" id="4_yr30m"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2o5yp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cchwj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6ljjq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_axl6x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_yr30m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_axl6x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6ljjq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Bird" type="Node2D"]
+script = ExtResource("1_6ljjq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(309, -180)
+sprite_frames = SubResource("SpriteFrames_2o5yp")
+frame_progress = 0.48360106
