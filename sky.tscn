@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhr55c068q5hp"]
+
+[ext_resource type="Texture2D" uid="uid://3t0uygyvqoct" path="res://assets/sprites/background_objects/bg_sky.png" id="1_gr5xt"]
+
+[node name="Sky" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_top = -1198.0
+offset_right = 3409.7778
+offset_bottom = 720.0
+texture = ExtResource("1_gr5xt")

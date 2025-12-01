@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://dpwmuvccc05eu"]
+
+[ext_resource type="Texture2D" uid="uid://cj04rehigwcs7" path="res://assets/sprites/background_objects/cloud_a/cloud_a_0.png" id="1_4d7sh"]
+[ext_resource type="Texture2D" uid="uid://bsafcvhyxng4t" path="res://assets/sprites/background_objects/cloud_a/cloud_a_1.png" id="2_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://cija3nxpowa6i" path="res://assets/sprites/background_objects/cloud_a/cloud_a_2.png" id="3_hqns4"]
+[ext_resource type="Texture2D" uid="uid://dsk616t5k13ok" path="res://assets/sprites/background_objects/cloud_a/cloud_a_3.png" id="4_x0ka3"]
+[ext_resource type="Texture2D" uid="uid://btfrdjlottno6" path="res://assets/sprites/background_objects/cloud_a/cloud_a_4.png" id="5_0h7mo"]
+[ext_resource type="Texture2D" uid="uid://dprx4iedhei57" path="res://assets/sprites/background_objects/cloud_a/cloud_a_5.png" id="6_nr8wp"]
+[ext_resource type="Texture2D" uid="uid://bvfr4dn3br1av" path="res://assets/sprites/background_objects/cloud_a/cloud_a_6.png" id="7_d2bti"]
+[ext_resource type="Texture2D" uid="uid://dal0wue7u842q" path="res://assets/sprites/background_objects/cloud_a/cloud_a_7.png" id="8_ta5nu"]
+[ext_resource type="Texture2D" uid="uid://cygdtkq1o5qlq" path="res://assets/sprites/background_objects/cloud_a/cloud_a_8.png" id="9_flf07"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k73cj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4d7sh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ir8iy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hqns4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_x0ka3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0h7mo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_nr8wp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_d2bti")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ta5nu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_flf07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ta5nu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_d2bti")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_nr8wp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0h7mo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_x0ka3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hqns4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ir8iy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_4d7sh")
+}],
+"loop": true,
+"name": &"cloud_a",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Cloud" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_k73cj")
+animation = &"cloud_a"
+frame = 13
+frame_progress = 0.0018802603

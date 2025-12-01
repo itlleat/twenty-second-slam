@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://comy5q4wl5lfj"]
+
+[ext_resource type="Texture2D" uid="uid://bq46h2innnjsr" path="res://assets/sprites/background_objects/tower.png" id="1_k1sas"]
+
+[node name="Tower" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_top = -509.0
+offset_right = 2184.889
+offset_bottom = 720.0
+texture = ExtResource("1_k1sas")

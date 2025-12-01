@@ -15,8 +15,8 @@ script = ExtResource("1_main_menu")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_right = 1153.75
-offset_bottom = 650.0
+offset_right = 1280.0
+offset_bottom = 720.0
 texture = ExtResource("2_1g8jr")
 
 [node name="MainContainer" type="VBoxContainer" parent="."]
@@ -26,14 +26,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -279.0
-offset_top = -171.0
-offset_right = -15.0
-offset_bottom = 183.0
+offset_left = -391.99997
+offset_top = -130.0
+offset_right = 190.14282
+offset_bottom = 234.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.7, 0.7)
 
 [node name="TitleLabel" type="Label" parent="MainContainer"]
+visible = false
 layout_mode = 2
 text = "EXIT INTERVIEW"
 horizontal_alignment = 1
@@ -72,6 +74,7 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
 [node name="VersionLabel" type="Label" parent="MainContainer"]
+visible = false
 layout_mode = 2
 text = "v0.0.1"
 horizontal_alignment = 1
