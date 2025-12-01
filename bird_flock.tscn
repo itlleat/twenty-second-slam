@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhncg848x12gn"]
+
+[ext_resource type="Script" uid="uid://s60m43g6vs27" path="res://bird_flock.gd" id="1_5ya3l"]
+[ext_resource type="Texture2D" uid="uid://3t0uygyvqoct" path="res://assets/sprites/background_objects/bg_sky.png" id="2_oiwhj"]
+[ext_resource type="PackedScene" uid="uid://rts2wchm1mb3" path="res://bird.tscn" id="3_1gqj6"]
+
+[node name="BirdFlock" type="Node2D"]
+script = ExtResource("1_5ya3l")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+offset_left = -637.0
+offset_top = -482.0
+offset_right = 643.0
+offset_bottom = 238.0
+texture = ExtResource("2_oiwhj")
+
+[node name="Bird" parent="." instance=ExtResource("3_1gqj6")]

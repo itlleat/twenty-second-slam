@@ -1,14 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://bu14v4t2tn52i"]
+[gd_scene load_steps=21 format=3 uid="uid://bu14v4t2tn52i"]
 
 [ext_resource type="Script" uid="uid://dwd3r14gwllkm" path="res://scripts/entities/vertical_zone.gd" id="1_45276"]
 [ext_resource type="Script" uid="uid://cs8ktcck50ess" path="res://scenes/levels/office.gd" id="1_office"]
 [ext_resource type="PackedScene" uid="uid://baxeutytpeu4r" path="res://scenes/player/player_new.tscn" id="2_4xsq1"]
 [ext_resource type="PackedScene" uid="uid://comy5q4wl5lfj" path="res://tower.tscn" id="3_3f6fi"]
 [ext_resource type="PackedScene" uid="uid://b2k1klgavi8le" path="res://bg_sky_scraper_dark.tscn" id="3_d01tv"]
-[ext_resource type="PackedScene" uid="uid://cdaf8ifcesgp0" path="res://bg_sky_scraper_light.tscn" id="3_jbvgb"]
+[ext_resource type="PackedScene" path="res://bg_sky_scraper_light.tscn" id="3_jbvgb"]
 [ext_resource type="Texture2D" uid="uid://v7htal4p7h7n" path="res://assets/sprites/background_objects/bg_sky_scraper_light.png" id="3_lin3j"]
 [ext_resource type="PackedScene" uid="uid://bo0w30x2werc8" path="res://comms_tower.tscn" id="4_a576x"]
 [ext_resource type="Texture2D" uid="uid://bergqnjr0dgwj" path="res://assets/sprites/background_objects/bg_sky_scraper_dark.png" id="4_cn1nh"]
+[ext_resource type="PackedScene" uid="uid://bhncg848x12gn" path="res://bird_flock.tscn" id="4_k1nkb"]
 [ext_resource type="Texture2D" uid="uid://bq46h2innnjsr" path="res://assets/sprites/background_objects/tower.png" id="5_cn1nh"]
 [ext_resource type="PackedScene" uid="uid://c3d4e5f6g7h8i" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
 [ext_resource type="Script" uid="uid://dsncdri42aalc" path="res://scripts/managers/pause_manager.gd" id="6_7k6om"]
@@ -27,7 +28,7 @@ size = Vector2(2341, 130.00002)
 script = ExtResource("1_office")
 
 [node name="Sky" parent="." instance=ExtResource("10_nrxk4")]
-position = Vector2(-1056, 147)
+position = Vector2(-1056, 306)
 
 [node name="BgParallax" type="Node2D" parent="."]
 
@@ -42,15 +43,21 @@ offset_right = 2943.0
 offset_bottom = 718.0
 texture = ExtResource("3_lin3j")
 
+[node name="BirdFlock2" parent="BgParallax" instance=ExtResource("4_k1nkb")]
+position = Vector2(626, 682)
+
 [node name="Parallax2D" type="Parallax2D" parent="BgParallax"]
 scroll_scale = Vector2(0.9, 0.9)
 
 [node name="TextureRect" type="TextureRect" parent="BgParallax/Parallax2D"]
-offset_left = -1389.0
-offset_top = 40.0
-offset_right = 3836.0
-offset_bottom = 760.0
+offset_left = -2569.0
+offset_top = 175.0
+offset_right = 2656.0
+offset_bottom = 895.0
 texture = ExtResource("4_cn1nh")
+
+[node name="BirdFlock" parent="BgParallax" instance=ExtResource("4_k1nkb")]
+position = Vector2(212, 364)
 
 [node name="Parallax2D3" type="Parallax2D" parent="BgParallax"]
 scroll_offset = Vector2(-21, 35)
@@ -84,7 +91,7 @@ offset_bottom = 1437.0
 color = Color(0.47397572, 0.47397572, 0.47397572, 1)
 
 [node name="FreeMovementZone" type="Area2D" parent="."]
-position = Vector2(-326, 830)
+position = Vector2(-262, 989)
 script = ExtResource("1_45276")
 
 [node name="ColorRect" type="ColorRect" parent="FreeMovementZone"]
